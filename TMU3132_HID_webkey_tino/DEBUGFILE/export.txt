@@ -1,0 +1,2 @@
+al 00CE7 .__STACKSIZE__ (0), 0,([linker generated]),Flags=0
+Val=100,SegName=__STACKSIZE__,0

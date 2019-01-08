@@ -1,0 +1,19 @@
+ca89 V1.8.9 - (C) Copyright 2006-2014 tenx technology inc. 
+Main file   : D:\Projects\TMU3132\TMU3132_HID_webkey_tino_getreport01h\TMU3132_HID_webkey_tino\DEBUGFILE\_DeclFuncExportName_1.s
+Current file: D:\Projects\TMU3132\TMU3132_HID_webkey_tino_getreport01h\TMU3132_HID_webkey_tino\DEBUGFILE\_DeclFuncExportName_1.s
+
+000000r 1                   .export stkptr
+000000r 1                   stkptr = $0020
+000000r 1                   .export __STKPTRSAVESIZE__ ;0
+000000r 1                   __STKPTRSAVESIZE__ = 0
+000000r 1                   .export _fpruntimestack
+000000r 1                   _fpruntimestack = $0288
+000000r 1                   .export RSR, __BANK1_OFFSET_VALUE__,__OPXSTKPTRSIZE__
+000000r 1                   RSR = $0005
+000000r 1                   __OPXSTKPTRSIZE__ = 0 ;stkptr=0, tmp1size=0
+000000r 1                   __BANK1_OFFSET_VALUE__ = $00C0
+000000r 1                   .export __FPLANE_ADDRESS_MAX__,__RPLANE_ADDRESS_MAX__
+000000r 1                   __FPLANE_ADDRESS_MAX__ = $00FF
+000000r 1                   __RPLANE_ADDRESS_MAX__ = $00FF
+000000r 1                   .AutoImport	on
+000000r 1                   

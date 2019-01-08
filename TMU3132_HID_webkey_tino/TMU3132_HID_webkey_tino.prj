@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tenx>
+	<Project>
+		<Version>Ver C 1.0</Version>
+		<Compiler>ASM</Compiler>
+		<ProjectType>prj</ProjectType>
+		<FileList>
+			<CFiles>
+			</CFiles>
+			<HeaderFiles>
+			</HeaderFiles>
+			<AsmFiles>
+				<File>TP6620 WEBKEY.asm</File></AsmFiles>
+			<IncludeFiles>
+			</IncludeFiles>
+			<LibFiles>
+			</LibFiles>
+			<TxtFiles>
+			</TxtFiles>
+			<LcdFiles>
+			</LcdFiles>
+			<OtherFiles>
+			</OtherFiles>
+		</FileList>
+		<FilePath>
+			<HeaderPath>
+				<Path>C:\Program Files (x86)\tenx\TICE99IDE Version V1.0.5Build45</Path></HeaderPath>
+			<LibPath>
+				<Path>C:\Program Files (x86)\tenx\TICE99IDE Version V1.0.5Build45</Path></LibPath>
+		</FilePath>
+		<Option>
+			<ConfigValue>7680</ConfigValue>
+			<ChipType>TMU3132</ChipType>
+			<ChipCategory>TMU</ChipCategory>
+			<ChipSize>4096</ChipSize>
+			<DebugWithSourceCode>1</DebugWithSourceCode>
+			<MainFile>TP6620 WEBKEY.asm</MainFile>
+			<MainBoardSupplyVoltage>Null</MainBoardSupplyVoltage>
+			<StkPtrSize>0</StkPtrSize>
+			<StackWarnMsg>1</StackWarnMsg>
+			<AliasChip>
+			</AliasChip>
+		</Option>
+		<OpenedFile>
+			<File>TP6620 WEBKEY.asm</File></OpenedFile>
+		<Breakpoint>
+		</Breakpoint>
+		<EQUWatchList>
+			<FPlane1>
+				<Name>VID_HI</Name><Name>VID_LO</Name><Name>PID_HI</Name><Name>PID_LO</Name><Name>TP6620_CLK_INI</Name><Name>EN_INT0_NONE</Name><Name>EN_INT1_NONE</Name><Name>EN_INT0_UNCONF</Name><Name>EN_INT1_UNCONF</Name><Name>EN_INT0_NORMAL</Name><Name>EN_INT1_NORMAL</Name><Name>EN_INT0_SUSPEND</Name><Name>EN_INT1_SUSPEND</Name><Name>Indf</Name><Name>Timer0</Name><Name>Pcl</Name><Name>Psw</Name><Name>Fsr</Name><Name>Rsr</Name><Name>PaReg</Name><Name>PbReg</Name><Name>PeReg</Name><Name>UsbAddrReg</Name><Name>Int0Reg</Name><Name>Int1Reg</Name><Name>UsbCtrlReg</Name><Name>Tx0Reg</Name><Name>Tx1Reg</Name><Name>Tx2Reg</Name><Name>Tx3Reg</Name><Name>Rc4Reg</Name><Name>Tx3Cnt</Name><Name>Rc4Cnt</Name><Name>XramCtrlReg</Name><Name>SpiCtrlReg</Name><Name>gCbwNextStep</Name><Name>gInt0Flag</Name><Name>gInt1Flag</Name><Name>gInt2Flag</Name><Name>gI2CFlag</Name><Name>gScsiStatus2</Name><Name>gTempVar0</Name><Name>gTempVar1</Name><Name>gTempVar2</Name><Name>gTempVar3</Name><Name>gTempVar4</Name><Name>gTempVar5</Name><Name>gTempVar6</Name><Name>BackupPSW</Name><Name>TEMP1</Name><Name>TEMP2</Name><Name>AnyCountTemp</Name><Name>UsbLedDataTemp</Name><Name>WorkReg</Name><Name>getstring2counter</Name><Name>TimerRollOver</Name><Name>getstring1counter</Name><Name>gWLengthTemp</Name><Name>gLengthCnt</Name><Name>gTableCnt</Name><Name>gDatalength</Name><Name>gRemoteWakeupStatus</Name><Name>gConfigurationStatus</Name><Name>gCurAlternate</Name><Name>TempReg</Name><Name>R_I2C_Address</Name><Name>R_I2C_Address1</Name><Name>nextsetreportflag</Name><Name>IdlePeriodStatus</Name><Name>gHidProtocolVal</Name><Name>ScanNumber</Name><Name>TempCount</Name><Name>EndMaxURL40h</Name><Name>ReadURLTime</Name><Name>UsbKeyBuffer0</Name><Name>UsbKeyBuffer2</Name><Name>UsbKeyBuffer3</Name><Name>UsbKeyBuffer4</Name><Name>KeyPress0</Name><Name>KeyPress1</Name><Name>KeyPress2</Name><Name>IdlePeriodTemp</Name><Name>UsbRequireState</Name><Name>WorkRegTemp</Name><Name>AsciiMSC</Name><Name>AsciiMID</Name><Name>AsciiLSC</Name><Name>Judge_Capital</Name><Name>CounterHead</Name><Name>CounterHead2</Name><Name>ReportDataLength</Name><Name>ReportDataLengthH</Name><Name>DelayCount</Name><Name>DelayCountH</Name><Name>BackupW</Name><Name>DelayCount_us</Name><Name>ReadI2CAddressH</Name><Name>PressToggle</Name><Name>DataBuffer0</Name><Name>TimerCountH</Name><Name>CtrlCmdSpace</Name><Name>EncryptionValue</Name><Name>PitchXor</Name><Name>ResetFlag0</Name><Name>ResetFlag1</Name><Name>ResetFlag2</Name><Name>ResetFlag3</Name><Name>URLLenTemp</Name><Name>TimeBuffer</Name><Name>SendSecuritytimes</Name><Name>MacVerFlag0</Name><Name>MacVerFlag1</Name><Name>MacVerFlag2</Name><Name>MacVerFlag3</Name><Name>URLAddressIndex</Name><Name>URLAddressLen</Name><Name>MacURLAddressIndex</Name><Name>MacURLAddressLen</Name><Name>Setreportcount</Name><Name>Getreportcount</Name><Name>ReadBuffer</Name><Name>ReadBuffer0</Name><Name>ReadBuffer1</Name><Name>ReadBuffer2</Name><Name>ReadBuffer3</Name><Name>ReadBuffer4</Name><Name>ReadBuffer5</Name><Name>ReadBuffer6</Name><Name>ReadBuffer7</Name><Name>ReadBuffer22</Name><Name>ReadBuffer23</Name><Name>INDR</Name><Name>T0RLD</Name><Name>T0Pscl</Name><Name>PwrDownCtrlReg</Name><Name>WDTE</Name><Name>WrcConfig</Name><Name>ClockCtrlReg</Name><Name>TestReg</Name><Name>Int0IeReg</Name><Name>Int1IeReg</Name><Name>Rc0Cnt</Name><Name>Rc0Reg</Name><Name>PAE</Name><Name>PBE</Name><Name>PEE</Name><Name>PAPU</Name><Name>PBPU</Name><Name>PCDEPU</Name><Name>SpiConfigReg</Name><Name>SpiCrsReg</Name><Name>SpiDmaLengthReg</Name><Name>SpiTxDataReg</Name><Name>SpiRxDataReg</Name><Name>Set0FifoReg</Name><Name>BmRequestType</Name><Name>BRequest</Name><Name>WValue</Name><Name>WValueHi</Name><Name>WIndex</Name><Name>WIndexHi</Name><Name>WLength</Name><Name>WLengthHi</Name><Name>Out0FifoReg</Name><Name>Tx0FifoReg</Name><Name>Tx0Fifo0</Name><Name>Tx0Fifo1</Name><Name>Tx0Fifo2</Name><Name>Tx0Fifo3</Name><Name>Tx0Fifo4</Name><Name>Tx0Fifo5</Name><Name>Tx0Fifo6</Name><Name>Tx0Fifo7</Name><Name>Tx1FifoReg</Name><Name>Tx1FifoReg0</Name><Name>Tx1FifoReg1</Name><Name>Tx1FifoReg2</Name><Name>Tx1FifoReg3</Name><Name>Tx1FifoReg4</Name><Name>Tx1FifoReg5</Name><Name>Tx1FifoReg6</Name><Name>Tx1FifoReg7</Name><Name>Tx2FifoReg</Name><Name>Tx2FifoReg0</Name><Name>Tx2FifoReg1</Name><Name>Tx2FifoReg2</Name><Name>Tx2FifoReg3</Name><Name>Tx2FifoReg4</Name><Name>Tx2FifoReg5</Name><Name>Tx2FifoReg6</Name><Name>Tx2FifoReg7</Name><Name>Xram1StartAddress</Name><Name>Xram10</Name><Name>Xram11</Name><Name>Xram12</Name><Name>Xram13</Name><Name>Xram14</Name><Name>Xram15</Name><Name>Xram16</Name><Name>Xram17</Name><Name>Xram2StartAddress</Name><Name>Xram20</Name><Name>Xram21</Name><Name>Xram22</Name><Name>Xram23</Name><Name>Xram24</Name><Name>Xram25</Name><Name>Xram26</Name><Name>Xram27</Name><Name>BIT0</Name><Name>BIT1</Name><Name>BIT2</Name><Name>BIT3</Name><Name>BIT4</Name><Name>BIT5</Name><Name>BIT6</Name><Name>BIT7</Name><Name>UsbNoReport</Name><Name>UsbReportError</Name><Name>UsbReport</Name><Name>W</Name><Name>F</Name><Name>HostToDevice</Name><Name>HostToInterface</Name><Name>HostToEndpoint</Name><Name>HostClassToInterface</Name><Name>DeviceToHost</Name><Name>InterfaceToHost</Name><Name>EndpointToHost</Name><Name>InterfaceToHostClass</Name><Name>GetStatus</Name><Name>ClearFeature</Name><Name>SetFeature</Name><Name>SetAddress</Name><Name>GetDescriptor</Name><Name>GetConfiguration</Name><Name>SetConfiguration</Name><Name>GetInterface</Name><Name>SetInterface</Name><Name>Device</Name><Name>Configuration</Name><Name>String</Name><Name>Interface</Name><Name>Endpoint</Name><Name>HidClass</Name><Name>HidReport</Name><Name>String0</Name><Name>String1</Name><Name>String2</Name><Name>String3</Name><Name>Report1</Name><Name>Report2</Name><Name>GetRequest</Name><Name>SetRequest</Name><Name>GetReport</Name><Name>GetIdle</Name><Name>GetProtocol</Name><Name>SetReport</Name><Name>SetIdle</Name><Name>SetProtocol</Name><Name>UnConfig</Name><Name>Config</Name><Name>LedValue</Name><Name>StallValue</Name><Name>DisableRemoteWakeup</Name><Name>EnableRemoteWakeup</Name><Name>Endpoint0</Name><Name>Endpoint1</Name><Name>Endpoint2</Name><Name>Endpoint3</Name><Name>Endpoint4</Name><Name>Interface0</Name><Name>Interface1</Name><Name>Interface2</Name><Name>DeviceLen</Name><Name>String0Len</Name><Name>KeyboardReport</Name><Name>LedReport</Name><Name>HidClassLen</Name></FPlane1>
+			<FPlane2>
+			</FPlane2>
+			<RPlane>
+			</RPlane>
+		</EQUWatchList>
+		<BookmarkList>
+			<Node>1. --</Node><Node>2. --</Node><Node>3. --</Node><Node>4. --</Node><Node>5. --</Node><Node>6. --</Node><Node>7. --</Node><Node>8. --</Node><Node>9. --</Node><Node>10. --</Node></BookmarkList>
+		<CWatchVarList>
+		</CWatchVarList>
+		<LCDVesion>v20</LCDVesion>
+		<SoftwareSimulate>0</SoftwareSimulate>
+		<IRCFSelection>
+			<Value>0</Value>
+			<Name></Name>
+		</IRCFSelection>
+	</Project>
+</tenx>

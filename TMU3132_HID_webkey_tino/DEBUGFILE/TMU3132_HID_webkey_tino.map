@@ -1,0 +1,22 @@
+Modules list:
+-------------
+TP6620 WEBKEY.o:
+    CODE              Offs = 000000   Size = 000C6C
+_DeclFuncExportName_1.o:
+
+
+Segment list:
+-------------
+Name                  Start   End     Size
+--------------------------------------------
+CODE                  000000  000F36  000F37
+
+
+Exports list:
+-------------
+
+
+
+Imports list:
+-------------
+

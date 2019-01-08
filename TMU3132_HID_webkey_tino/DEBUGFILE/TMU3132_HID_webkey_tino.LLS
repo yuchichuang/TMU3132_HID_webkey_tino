@@ -1,0 +1,3182 @@
+ PC   Code  Line   Mnemonic
+====  ====  =====  =============================================
+0000  3443      6   		goto	Start
+0001  300E     11  		goto	INT_Rc0
+0002  301A     12  		goto	INT_Out0
+0003  302B     13  		goto	INT_Tx0
+0004  3035     14  		goto	INT_Tx1
+0005  303E     15  		goto	INT_Tx2
+0006  30B1     16  		goto	INT_Susp
+0007  3048     17  		goto	INT_Tx3
+0008  3051     18  		goto	INT_Rc4
+0009  308C     20  		goto	INT_Rst
+000A  3099     21  		goto	INT_Rsm
+000B  305A     22  		goto	INT_WakeupTimer
+000C  3064     23  		goto	INT_Timer0
+000D  3082     24  		goto	INT_PB0ExternalIO
+000E  00EC     29  		movwf	BackupW
+000F  0803     30  		movfw	Psw
+0010  00B7     31  		movwf	BackupPSW
+0011  0194     33  		clrf	Tx0Reg
+0012  197F     35  		movlw	7fh
+0013  0091     36  		movwf	Int0Reg
+0014  13E1     38  		bsf	gbRc0Flag
+0015  1154     39  		bcf	Ep0Stall
+0016  0837     41  		movfw	BackupPSW
+0017  0083     42  		movwf	Psw
+0018  086C     43  		movfw	BackupW
+0019  0060     44  		reti
+001A  00EC     47  		movwf	BackupW
+001B  0803     48  		movfw	Psw
+001C  00B7     49  		movwf	BackupPSW
+001D  19BF     51  		movlw	bfh
+001E  0091     52  		movwf	Int0Reg
+001F  15AD     54  		btfsc	WriteE2EROMFlag	
+0020  13A1     55  		bsf	gbOut0Flag
+0021  1F13     56  		movrw	Rc0Cnt
+0022  1B02     57  		andlw	02h
+0023  1483     58  		btfsc	Zero
+0024  3027     59  		goto	$+3
+0025  1F49     60  		movrw	Out1FifoReg;Out0FifoReg			;if Rc0Cnt=1, it is SetLed data here
+0026  00BB     61  		movwf	UsbLedDataTemp
+0027  0837     62  		movfw	BackupPSW
+0028  0083     63  		movwf	Psw
+0029  086C     64  		movfw	BackupW
+002A  0060     65  		reti
+002B  00EC     68  		movwf	BackupW
+002C  0803     69  		movfw	Psw
+002D  00B7     70  		movwf	BackupPSW
+002E  19DF     72  		movlw	dfh
+002F  0091     73  		movwf	Int0Reg
+0030  1361     76  		bsf	gbTx0Flag
+0031  0837     78  		movfw	BackupPSW
+0032  0083     79  		movwf	Psw
+0033  086C     80  		movfw	BackupW
+0034  0060     82  		reti
+0035  00EC     85  		movwf	BackupW
+0036  0803     86  		movfw	Psw
+0037  00B7     87  		movwf	BackupPSW
+0038  19EF     89  		movlw	efh
+0039  0091     90  		movwf	Int0Reg
+003A  0837     95  		movfw	BackupPSW
+003B  0083     96  		movwf	Psw
+003C  086C     97  		movfw	BackupW
+003D  0060     98  		reti
+003E  00EC    101  		movwf	BackupW
+003F  0803    102  		movfw	Psw
+0040  00B7    103  		movwf	BackupPSW
+0041  19F7    105  		movlw	f7h
+0042  0091    106  		movwf	Int0Reg
+0043  12E1    109  		bsf	gbTx2Flag
+0044  0837    111  		movfw	BackupPSW
+0045  0083    112  		movwf	Psw
+0046  086C    113  		movfw	BackupW
+0047  0060    114  		reti
+0048  00EC    117  		movwf	BackupW
+0049  0803    118  		movfw	Psw
+004A  00B7    119  		movwf	BackupPSW
+004B  19FD    121  		movlw	fdh
+004C  0091    122  		movwf	Int0Reg
+004D  0837    127  		movfw	BackupPSW
+004E  0083    128  		movwf	Psw
+004F  086C    129  		movfw	BackupW
+0050  0060    130  		reti
+0051  00EC    133  		movwf	BackupW
+0052  0803    134  		movfw	Psw
+0053  00B7    135  		movwf	BackupPSW
+0054  19FE    137  		movlw	feh
+0055  0091    138  		movwf	Int0Reg
+0056  0837    143  		movfw	BackupPSW
+0057  0083    144  		movwf	Psw
+0058  086C    145  		movfw	BackupW
+0059  0060    146  		reti
+005A  00EC    149  		movwf	BackupW
+005B  0803    150  		movfw	Psw
+005C  00B7    151  		movwf	BackupPSW
+005D  19DF    153  		movlw	dfh
+005E  0092    154  		movwf	Int1Reg
+005F  1362    157  		bsf	gbWktFlag
+0060  0837    159  		movfw	BackupPSW
+0061  0083    160  		movwf	Psw
+0062  086C    161  		movfw	BackupW
+0063  0060    162  		reti
+0064  00EC    165  		movwf	BackupW
+0065  0803    166  		movfw	Psw
+0066  00B7    167  		movwf	BackupPSW
+0067  19FE    169  		movlw	feh
+0068  0092    170  		movwf	Int1Reg
+0069  1222    172  		bsf	gbTm0Flag
+006A  0ABE    173  		incf	TimerRollOver,F
+006B  16AD    175  		btfss	W7StartCount		;entry time: set report
+006C  307E    176  		goto	$+18
+006D  14ED    177  		btfsc	FriPlugEnd
+006E  307E    178  		goto	$+16		
+006F  1901    179  		movlw	01h
+0070  0663    180  		xorwf	CounterHead2,W
+0071  1483    181  		btfsc	Zero
+0072  3078    182  		goto	$+6
+0073  0AE2    183  		incf	CounterHead,F
+0074  08E2    184  		testz	CounterHead
+0075  1483    185  		btfsc	Zero
+0076  0AE3    186  		incf	CounterHead2,F
+0077  307E    187  		goto	$+7
+0078  01BE    188  		clrf	TimerRollOver
+0079  1904    189  		movlw	04h					;3x delay for send key
+007A  00EB    190  		movwf	DelayCountH
+007B  1364    191  		bsf		JudgeSendFlag
+007C  12ED    192  		bsf		FriPlugEnd			;if FriPlugEnd be cleared, this counter will be execute one more time.
+007D  132E    193  		bsf		MSJudgeSendOnceFlag
+007E  0837    195  		movfw	BackupPSW
+007F  0083    196  		movwf	Psw
+0080  086C    197  		movfw	BackupW
+0081  0060    198  		reti
+0082  00EC    201  		movwf	BackupW
+0083  0803    202  		movfw	Psw
+0084  00B7    203  		movwf	BackupPSW
+0085  19FD    205  		movlw	fdh
+0086  0092    206  		movwf	Int1Reg
+0087  1262    209  		bsf	gbPb0Flag
+0088  0837    211  		movfw	BackupPSW
+0089  0083    212  		movwf	Psw
+008A  086C    213  		movfw	BackupW
+008B  0060    214  		reti
+008C  00EC    219  		movwf	BackupW
+008D  0803    220  		movfw	Psw
+008E  00B7    221  		movwf	BackupPSW
+008F  19EF    224  		movlw	efh
+0090  0092    225  		movwf	Int1Reg
+0091  1322    227  		bsf	gbRstFlag
+0092  11D3    228  		bcf	Suspend			;Clear Interface in suspend mode
+0093  122A    230  		bsf	gbResetPath
+0094  30E1    232  		goto	UsbReset
+0095  0837    236  		movfw	BackupPSW
+0096  0083    237  		movwf	Psw
+0097  086C    238  		movfw	BackupW
+0098  0060    239  		reti
+0099  00EC    242  		movwf	BackupW
+009A  0803    243  		movfw	Psw
+009B  00B7    244  		movwf	BackupPSW
+009C  19F7    246  		movlw	f7h
+009D  0092    247  		movwf	Int1Reg
+009E  104A    250  		bcf	LED1
+009F  190C    252  		movlw	0ch		;Try Pb2/Pb3 pull-up;TestV7
+00A0  1E26    253  		movwr	PBPU
+00A1  19FF    254  		movlw	ffh
+00A2  0087    255  		movwf	PbReg
+00A3  12D3    256  		bsf	DeviceR
+00A4  1980    258  		movlw	80h
+00A5  0490    259  		iorwf	UsbAddrReg,F
+00A6  10A1    262  		bcf	gbSuspendFlag		;Keeping FLAG
+00A7  11D3    263  		bcf	Suspend			;Clear Interface in suspend mode
+00A8  19FC    265  		movlw	EN_INT0_NORMAL
+00A9  1E11    266  		movwr	Int0IeReg
+00AA  1915    267  		movlw	EN_INT1_NORMAL
+00AB  1E12    268  		movwr	Int1IeReg
+00AC  12E4    269  		bsf	StartScanFlag
+00AD  0837    271  		movfw	BackupPSW
+00AE  0083    272  		movwf	Psw
+00AF  086C    273  		movfw	BackupW
+00B0  0060    274  		reti
+00B1  00EC    277  		movwf	BackupW
+00B2  0803    278  		movfw	Psw
+00B3  00B7    279  		movwf	BackupPSW
+00B4  19FA    281  		movlw	fah
+00B5  0091    282  		movwf	Int0Reg
+00B6  12A1    284    		bsf	gbSuspendFlag		;Keeping FLAG
+00B7  124A    286  		bsf	LED1
+00B8  128A    287  		bsf	LED2
+00B9  0837    304  		movfw	BackupPSW
+00BA  0083    305  		movwf	Psw
+00BB  086C    306  		movfw	BackupW
+00BC  0060    307    		reti
+00BD  1928    310  		movlw	TP6620_CLK_INI
+00BE  1E07    311  		movwr	ClockCtrlReg
+00BF  1960    313  		movlw	60h
+00C0  1E06    314  		movwr	WrcConfig
+00C1  1900    317  		movlw	00d			;(256-24*1)		;1ms
+00C2  1E01    319  		movwr	T0RLD
+00C3  0081    320  		movwf	Timer0			;Count of time
+00C4  1918    322  		movlw	18h			;Enable/Prescale8=256
+00C5  1E02    323  		movwr	T0Pscl
+00C6  1901    326  		movlw	1h
+00C7  1E12    327  		movwr	12h			;Enable Interrupt
+00C8  1343    330  		bsf	RamBank			;1
+00C9  1940    331  		movlw	40h
+00CA  20D8    332  		call	InitRAM
+00CB  1143    334  		bcf	RamBank			;0
+00CC  1920    335  		movlw	20h
+00CD  20D8    336  		call	InitRAM
+00CE  1900    337  		movlw	00h
+00CF  00FF    338  		movwf	Getreportcount
+00D0  00FE    339  		movwf	Setreportcount
+00D1  19E0    341  		movlw	EN_INT0_NONE
+00D2  1E11    342  		movwr	Int0IeReg
+00D3  1915    343  		movlw	EN_INT1_NONE
+00D4  1E12    344  		movwr	Int1IeReg
+00D5  1606    347  		btfss	PaReg,0
+00D6  13A4    348  		bsf	E2PROMFlag
+00D7  0040    349  		ret
+00D8  0084    355  		movwf	Fsr
+00D9  1900    357  		movlw	00h
+00DA  0080    358  		movwf	Indf
+00DB  0A84    359  		incf	Fsr,F
+00DC  197F    360  		movlw	7fh
+00DD  0204    361  		subwf	Fsr,W
+00DE  1683    362  		btfss	Zero
+00DF  30D9    363  		goto	SR_ClearLoop0
+00E0  0040    364  		ret
+00E1  0191    395  		clrf	Int0Reg
+00E2  0192    396  		clrf	Int1Reg
+00E3  0194    397  		clrf	Tx0Reg
+00E4  0197    398  		clrf	Tx3Reg
+00E5  0198    399  		clrf	Rc4Reg
+00E6  12D3    401  		bsf	DeviceR
+00E7  11D3    403  		bcf	Suspend
+00E8  19E0    404  		movlw	EN_INT0_NONE
+00E9  1E11    405  		movwr	Int0IeReg
+00EA  1915    406  		movlw	EN_INT1_NONE
+00EB  1E12    407  		movwr	Int1IeReg
+00EC  1980    409  		movlw   80h
+00ED  0090    410  		movwf	UsbAddrReg
+00EE  01A0    412  		clrf	gCbwNextStep
+00EF  1910    413  		XRAM1CPU_XRAM2USB
+00F0  009C    413  		XRAM1CPU_XRAM2USB
+00F1  1213    415  		bsf	Rc0Rdy
+00F2  142A    416  		btfsc	gbResetPath
+00F3  3095    417  		goto	INT_RST_END_USBRESET
+00F4  0040    418  		ret
+00F5  19E0    422  		movlw	EN_INT0_SUSPEND
+00F6  1E11    423  		movwr	Int0IeReg
+00F7  191C    424  		movlw	EN_INT1_SUSPEND
+00F8  1E12    425  		movwr	Int1IeReg
+00F9  10CA    427  		bcf	LED
+00FA  13D3    429    		bsf	Suspend			;Force Interface to suspend mode
+00FB  0810    431  		movfw	UsbAddrReg		;If have address ?
+00FC  1B7F    432  		andlw	7fh
+00FD  1483    433  		btfsc	Zero
+00FE  0040    434  		ret
+00FF  19FF    436  		movlw	ffh
+0100  1E03    437  		movwr	PwrDownCtrlReg
+0101  0000    438  		nop
+0102  0000    439  		nop
+0103  0000    440  		nop
+0104  12CA    441  		bsf	LED
+0105  0040    442  		ret
+0106  00B6    447  		movwf	gTempVar6
+0107  1940    449  		movlw	BIT6			;TX0tgl=>1
+0108  0694    450  		xorwf	Tx0Reg,F
+0109  19F0    451    		movlw	f0h
+010A  0594    452    		andwf	Tx0Reg,F		;Clear TX0cnt
+010B  0836    453  		movfw	gTempVar6
+010C  0494    454  		iorwf	Tx0Reg,F		;gLengthCnt=>1
+010D  13D4    455    		bsf	Tx0Rdy
+010E  0040    456  		ret
+010F  0140    459  		clrw
+0110  2106    460  		call	EP0Transfer
+0111  1213    461  		bsf	Rc0Rdy			;WaitNextCommand
+0112  0040    462  		ret
+0113  11E1    473  		bcf	gbRc0Flag
+0114  1F13    475  		movrw	Rc0Reg			;if(Rc0Err) ErrHandler.
+0115  1B40    476  		andlw	BIT6
+0116  1683    477  		btfss	Zero
+0117  3225    478  		goto	SetupCmdErr
+0118  1F40    480  		movrw	BmRequestType
+0119  00B1    481  		movwf	gTempVar1
+011A  0EB1    482  		swapf	gTempVar1,F
+011B  0C31    483  		rrf	gTempVar1,W
+011C  1B03    484  		andlw	3h
+011D  0782    485  		addwf	Pcl,F
+011E  3212    487  		goto	RequestStandard
+011F  3122    488  		goto	RequestClass
+0120  3211    489  		goto	RequestVendor
+0121  3225    490  		goto	SetupCmdErr
+0122  1F44    494  		movrw	WIndex			;WIndex must be 0 or 1
+0123  1BFE    495  		andlw	feh
+0124  1683    496  		btfss	Zero
+0125  3225    497  		goto	SetupCmdErr
+0126  1F44    499  		movrw	WIndex
+0127  0782    500  		addwf	Pcl,F
+0128  312C    501  		goto	ClassCmd_HID
+0129  312C    502  		goto	ClassCmd_HID	;SetupCmdErr
+012A  3225    503  		goto	SetupCmdErr
+012B  3225    504  		goto	SetupCmdErr
+012C  1F41    508  		movrw	BRequest
+012D  1D0B    509  		xorlw	SetProtocol
+012E  1483    510  		btfsc	Zero
+012F  31EE    511  		goto	HidSetProtocol
+0130  1F41    513  		movrw	BRequest
+0131  1D03    514  		xorlw	GetProtocol
+0132  1483    515  		btfsc	Zero
+0133  320A    516  		goto	HidGetProtocol
+0134  1F41    518  		movrw	BRequest
+0135  1D01    519  		xorlw	GetReport
+0136  1483    520  		btfsc	Zero
+0137  31B8    521  		goto	HidGetReport
+0138  1F41    523  		movrw	BRequest
+0139  1D09    524  		xorlw	SetReport
+013A  1483    525  		btfsc	Zero
+013B  3168    526  		goto	HidSetReport
+013C  1F41    528  		movrw	BRequest
+013D  1D02    529  		xorlw	GetIdle
+013E  1483    530  		btfsc	Zero
+013F  3145    531  		goto	HidGetIdle
+0140  1F41    533  		movrw	BRequest
+0141  1D0A    534  		xorlw	SetIdle
+0142  1483    535  		btfsc	Zero
+0143  314A    536  		goto	HidSetIdle
+0144  3225    538  		goto	SetupCmdErr
+0145  084C    541  		movfw	IdlePeriodStatus		;Echo DATA
+0146  1E50    542  		movwr	Tx0Fifo0
+0147  1901    544  		movlw	1h
+0148  2106    545  		call	EP0Transfer
+0149  0040    546  		ret
+014A  14A4    550  			btfsc	OSType				;for Fresco USB 3.0
+014B  3154    551  			goto	$+9;$+6;
+014C  12A4    552  			bsf	OSType
+014D  1902    553  			movlw	02h
+014E  023F    554  			subwf	getstring1counter,W	;if getstring1counter >= 2, bcf	OSType
+014F  1403    555  			btfsc	Carry
+0150  3153    556  			goto	$+3
+0151  132D    557  			bsf	NECUSB3ChipFlag			;handle send key stuck, meanwhile 
+0152  3154    558  			goto	$+2
+0153  10A4    559  			bcf	OSType					;restore original mac os
+0154  1901    562  			movlw	01h
+0155  023F    563  			subwf	getstring1counter,W	
+0156  1603    564  			btfss	Carry
+0157  315E    565  			goto	$+7			
+0158  1902    566  			movlw	02h					;check if Android 4.0 OS
+0159  023D    567  			subwf	getstring2counter,W
+015A  1403    568  			btfsc	Carry
+015B  315E    569  			goto	$+3
+015C  10A4    570  			bcf	OSType					;select other flag for Android
+015D  136E    571  			bsf	AndroidOSFlag
+015E  12E4    574  		bsf	StartScanFlag
+015F  01BE    575  			clrf	TimerRollOver
+0160  198A    576  			movlw	8ah
+0161  00EA    577  			movwf	DelayCount
+0162  1F43    579  		movrw	WValueHi
+0163  00CC    580  		movwf	IdlePeriodStatus
+0164  00DB    581  		movwf	IdlePeriodTemp
+0165  0140    583  		clrw				;ACK
+0166  2106    584  		call	EP0Transfer
+0167  0040    585  		ret
+0168  1F46    591  		movrw	WLength
+0169  1D20    592  		xorlw	20h
+016A  1483    593  		btfsc	Zero
+016B  13AD    594  		bsf		WriteE2EROMFlag
+016C  0AFE    595  		incf	Setreportcount,F				;when fisrt emuration, the value must be even, otherwise odd
+016D  08C5    596    		testz	gConfigurationStatus			;ConfigurationStatus = UnConfig ?
+016E  1483    597    		btfsc	Zero
+016F  31B6    598   		goto	HidSetRequestTaskError
+0170  1F44    600  			movrw	WIndex
+0171  1D01    601  			xorlw	01h
+0172  1683    602    		btfss	Zero
+0173  3175    603    		goto	CheckInterface1
+0174  31B2    604    		goto	HidSetRequestTaskSend
+0175  12E4    606      	bsf	StartScanFlag
+0176  1F44    607  			movrw	WIndex
+0177  1D00    608  			xorlw	00h		
+0178  1683    609    		btfss	Zero
+0179  31B6    610    		goto	HidSetRequestTaskError
+017A  1F43    612  		movrw	WValueHi
+017B  1D02    613  		xorlw	02h			
+017C  1483    614    		btfsc	Zero		
+017D  12AD    615    		bsf		W7StartCount				;enable this flag = start timer for trigger JudgeSendFlag
+017E  1524    617    		btfsc	Check_Flag
+017F  31B2    618  		goto	HidSetRequestTaskSend
+0180  16A4    619    		btfss	OSType
+0181  31B2    620    		goto	HidSetRequestTaskSend
+0182  1900    621  		movlw	00h
+0183  064B    622  		xorwf	nextsetreportflag,W
+0184  1483    623  		btfsc	Zero
+0185  318C    624  		goto	testfirstplugin
+0186  1901    625  		movlw	01h
+0187  064B    626  		xorwf	nextsetreportflag,W
+0188  1683    627  		btfss	Zero
+0189  31B2    628  		goto	HidSetRequestTaskSend
+018A  0ACB    629  		incf	nextsetreportflag,F
+018B  3192    630  		goto	deviceready
+018C  14AC    632  		btfsc	USB30TrueFlag
+018D  31B1    633  		goto	waitnextgetreport	
+018E  1904    635    		movlw	04h;07h						;1st emuration run failed
+018F  023D    636    		subwf	getstring2counter,W
+0190  1403    637    		btfsc	Carry	
+0191  31B1    645    		goto	waitnextgetreport		;goto first emuration delay
+0192  1901    648    		movlw	01h
+0193  023D    649    		subwf	getstring2counter,W
+0194  1603    650    		btfss	Carry		
+0195  31B2    651    		goto	HidSetRequestTaskSend
+0196  1324    652    		bsf	Check_Flag
+0197  1F43    654  		movrw	WValueHi
+0198  1D02    655  		xorlw	02h			
+0199  1683    656    		btfss	Zero		
+019A  31AD    657  		goto	deviceready2
+019B  1902    658  			movlw	02h						;for NEC USB 3.0 chipset
+019C  023D    659  			subwf	getstring2counter,W
+019D  1603    660  			btfss	Carry
+019E  132D    661  			bsf	NECUSB3ChipFlag
+019F  172D    663  			btfss	NECUSB3ChipFlag
+01A0  31A9    664  			goto	$+9
+01A1  087E    665  			movfw	Setreportcount
+01A2  1D01    666  			xorlw	01h;02h
+01A3  1683    667  			btfss	Zero
+01A4  31AD    668  			goto	deviceready2
+01A5  087F    669  			movfw	Getreportcount
+01A6  1D01    670  			xorlw	01h;02h
+01A7  1683    671  			btfss	Zero
+01A8  31AD    672  			goto	deviceready2
+01A9  152E    674  			btfsc	MSJudgeSendOnceFlag	;make sure only one send key path
+01AA  31AD    675  			goto	deviceready2
+01AB  1364    677  	 	bsf	JudgeSendFlag				;if u want to send key, JudgeSendFlag and Check_Flag must be 1
+01AC  12ED    678  		bsf	FriPlugEnd
+01AD  01BE    680    		clrf	TimerRollOver			;second emuration delay
+01AE  190C    681    		movlw	0ch;a0h;		
+01AF  00EA    682    		movwf	DelayCount	
+01B0  31B2    683    		goto	HidSetRequestTaskSend
+01B1  0ACB    685  		incf	nextsetreportflag,F		;if first goto here, getstring2counter>=7 
+01B2  0140    721  		clrw				;ACK
+01B3  2106    722  		call	EP0Transfer
+01B4  1213    723  		bsf	Rc0Rdy
+01B5  0040    724  		ret
+01B6  1354    727  		bsf	Ep0Stall
+01B7  0040    728  		ret		
+01B8  1F44    736  		movrw	WIndex			;if(Index==1)
+01B9  1D00    737  		xorlw	00h
+01BA  1683    738      		btfss	Zero
+01BB  31BF    739      		goto	GetReport1
+01BC  1901    741    		movlw	1h
+01BD  00C3    742  		movwf	gDatalength
+01BE  3315    743  		goto	GetDescriptorTaskSend
+01BF  1F43    746        		movrw	WValueHi
+01C0  1D01    747      		xorlw	01h			;KeyboardReport
+01C1  1483    748      		btfsc	Zero
+01C2  31E2    749      		goto	SendKeyboardReport
+01C3  14AE    751  		btfsc	AskROMSizeFlag
+01C4  31CA    752  		goto	SendE2PROMSize
+01C5  083B    758    		movfw	UsbLedDataTemp
+01C6  1E50    759    		movwr	Tx0Fifo0
+01C7  19C1    760    		movlw	c1h
+01C8  0094    761    		movwf	Tx0Reg
+01C9  0040    762  		ret
+01CA  10AE    765  		bcf		AskROMSizeFlag
+01CB  17A4    766  		btfss	E2PROMFlag
+01CC  0040    767  		ret
+01CD  1955    769  		movlw	55h
+01CE  1E50    770   		movwr	Tx0Fifo0
+01CF  1901    771  		movlw	01h
+01D0  156D    772  		btfsc	E2PROM512Flag
+01D1  1902    773  		movlw	02h
+01D2  1E51    774  		movwr	Tx0Fifo1
+01D3  1900    775  		movlw	00h
+01D4  1E52    776   		movwr	Tx0Fifo2
+01D5  1900    777  		movlw	00h
+01D6  1E53    778   		movwr	Tx0Fifo3
+01D7  1900    779  		movlw	00h
+01D8  1E54    780   		movwr	Tx0Fifo4
+01D9  1900    781  		movlw	00h
+01DA  1E55    782   		movwr	Tx0Fifo5
+01DB  1900    783  		movlw	00h
+01DC  1E56    784   		movwr	Tx0Fifo6
+01DD  1900    785  		movlw	00h
+01DE  1E57    786   		movwr	Tx0Fifo7
+01DF  19C8    788    		movlw	c8h
+01E0  0094    789    		movwf	Tx0Reg		
+01E1  0040    790  		ret
+01E2  1900    793        		movlw	00h
+01E3  1E50    794        		movwr	Tx0Fifo0
+01E4  1E51    795        		movwr	Tx0Fifo1
+01E5  1E52    796        		movwr	Tx0Fifo2
+01E6  1E53    797        		movwr	Tx0Fifo3
+01E7  1E54    798        		movwr	Tx0Fifo4
+01E8  1E55    799        		movwr	Tx0Fifo5
+01E9  1E56    800        		movwr	Tx0Fifo6
+01EA  1E57    801        		movwr	Tx0Fifo7
+01EB  19C8    802  		movlw	c8h
+01EC  0094    803    		movwf	Tx0Reg
+01ED  0040    804  		ret
+01EE  1524    807  		btfsc	Check_Flag
+01EF  3200    808  		goto	NoMacOS
+01F0  142F    810  		btfsc GetDeviceDspt08Byte
+01F1  10A4    811  		bcf OSType
+01F2  14A4    813    		btfsc	OSType
+01F3  3200    814  		goto	NoMacOS
+01F4  1901    815  		movlw	01h
+01F5  023D    816  		subwf	getstring2counter,W;getstring0counter,W
+01F6  1603    817  		btfss	Carry
+01F7  3200    818  		goto	NoMacOS
+01F8  1324    819  		bsf	Check_Flag
+01F9  14A4    820  		btfsc	OSType
+01FA  31FC    821  		goto	HidSetProtocol_2	
+01FB  1364    822  	 	bsf	JudgeSendFlag
+01FC  01BE    824  	 	clrf	TimerRollOver
+01FD  190C    825  	 	movlw	0ch;60h			;08h
+01FE  00EA    826  	 	movwf	DelayCount
+01FF  01EB    830  	 	clrf	DelayCountH
+0200  12E4    832  		bsf	StartScanFlag
+0201  12E5    834  		bsf	gbHidProtocol
+0202  1F42    835  		movrw	WValue
+0203  00CD    836  		movwf	gHidProtocolVal
+0204  1BFF    837  		andlw	ffh
+0205  1483    838  		btfsc	Zero
+0206  10E5    839  		bcf	gbHidProtocol
+0207  0140    841  		clrw				;ACK
+0208  2106    842  		call	EP0Transfer
+0209  0040    843  		ret
+020A  0140    846  		clrw				;Echo DATA
+020B  14E5    847  		btfsc	gbHidProtocol
+020C  084D    848  		movfw	gHidProtocolVal
+020D  1E50    849  		movwr	Tx0Fifo0
+020E  1901    851  		movlw	1h
+020F  2106    852  		call	EP0Transfer
+0210  0040    853  		ret
+0211  3225    856  		goto	SetupCmdErr
+0212  1F41    859  		movrw	BRequest
+0213  1CF4    860  		addlw	(256-(SETUP_TBL_END-SETUP_TBL_BEGIN))
+0214  1403    861  		btfsc	Carry
+0215  3225    862         	 	goto	SetupCmdErr
+0216  1F41    864  		movrw	BRequest
+0217  0782    865  		addwf	Pcl,F
+0218  33B1    867  		goto	GetStatusTask		;(00h)
+0219  334F    868  		goto	ClearFeatureTask	;(01h)
+021A  3225    869  		goto	SetupCmdErr
+021B  3386    870  		goto	SetFeatureTask		;(03h)
+021C  3225    871  		goto	SetupCmdErr
+021D  3319    872  		goto	SetAddressTask		;(05h)
+021E  32A2    873  		goto	GetDescriptorTask	;(06h)
+021F  3225    874  		goto	SetupCmdErr
+0220  331E    875  		goto	GetConfigurationTask	;(08h)
+0221  3327    876  		goto	SetConfigurationTask	;(09h)
+0222  33F8    877    		goto	GetInterfaceTask	;(0ah)
+0223  3401    878  		goto	SetInterfaceTask	;(0bh)
+0224  0000    880  		nop
+0225  1354    883  		bsf	Ep0Stall
+0226  0040    884  		ret
+0227  11A1    889  		bcf	gbOut0Flag
+0228  1624    890  		btfss	DataOutFlag
+0229  3233    891  		goto	$+10
+022A  15ED    892  		btfsc	SendFlag
+022B  3232    893  		goto	$+7
+022C  0AB8    894  		incf	TEMP1,F
+022D  1903    895  		movlw	03h
+022E  0638    896  		xorwf	TEMP1,W
+022F  1483    897  		btfsc	Zero
+0230  13ED    898  		bsf	SendFlag
+0231  3233    899  		goto	$+2
+0232  225B    900  		call	DataOutTask
+0233  210F    901  		call	NoDataControl
+0234  2236    902  		call	Commandcheck
+0235  0040    903  		ret
+0236  1F48    906  		movrw	48h
+0237  1D0A    907  		xorlw	0ah
+0238  1683    908  		btfss	Zero
+0239  0040    909  		ret
+023A  1F49    910  		movrw	49h
+023B  1D0B    911  		xorlw	0bh
+023C  1683    912  		btfss	Zero
+023D  0040    913  		ret
+023E  1F4A    914  		movrw	4ah
+023F  1D0C    915  		xorlw	0ch
+0240  1683    916  		btfss	Zero
+0241  0040    917  		ret
+0242  1F4B    918  		movrw	4bh
+0243  1D0D    919  		xorlw	0dh
+0244  1683    920  		btfss	Zero
+0245  0040    921  		ret
+0246  01C9    932          clrf	R_I2C_Address
+0247  01EE    933    		clrf    ReadI2CAddressH
+0248  1F4E    935  		movrw	4eh		
+0249  1D03    936  		xorlw	03h
+024A  1483    937  		btfsc	Zero
+024B  12AE    938  		bsf	AskROMSizeFlag		;AP wants to ask EPROM size
+024C  14AE    939  		btfsc	AskROMSizeFlag
+024D  0040    940  		ret;goto	$+6
+024E  1F4E    942  		movrw	4eh
+024F  1D01    943  		xorlw	01h;InputValue
+0250  1683    944  		btfss	Zero
+0251  3254    945  		goto	OutputValueTest
+0252  122E    946  		bsf	CMDInFlag
+0253  0040    947          ret
+0254  1F4E    949  		movrw	4eh
+0255  1D02    950  		xorlw	02h;OutputValue
+0256  1683    951  		btfss	Zero
+0257  0040    952  		ret
+0258  0000    953  		nop
+0259  1224    954  		bsf	DataOutFlag
+025A  0040    955  		ret
+025B  1624    959  		btfss	DataOutFlag
+025C  0040    960  		ret
+025D  1024   1004    		bcf	DataOutFlag
+025E  01B8   1005    		clrf	TEMP1
+025F  11ED   1006    		bcf	SendFlag
+0260  0040   1007    		ret
+0261  1161   1133  		bcf	gbTx0Flag
+0262  1663   1138  		btfss	gbNewAddrFlag
+0263  3268   1139  		goto	Tx0TransCheck
+0264  1F42   1141  		movrw	WValue
+0265  1A80   1142  		iorlw	BIT7			;EN_USB bit
+0266  0090   1143  		movwf	UsbAddrReg
+0267  1063   1144  		bcf	gbNewAddrFlag
+0268  08C0   1147    		testz	gWLengthTemp
+0269  1683   1148  		btfss	Zero
+026A  326D   1149  		goto	NormalTrans		;Len>0;Send DATA
+026B  210F   1150  		call	NoDataControl		;Len=0;Send NULL + WaitNextCommand
+026C  0040   1151  		ret
+026D  2289   1154  		call	Tx0Transfer		;Prepare DATA to transfer
+026E  1213   1155  		bsf	Rc0Rdy			;Transfer
+026F  0040   1156  		ret
+0270  10E2   1160  		bcf	gbRsmFlag
+0271  0040   1161  		ret
+0272  1061   1164  		bcf	gbTx3Flag
+0273  0040   1167  		ret
+0274  1021   1170  		bcf	gbRc4Flag
+0275  13D8   1179  		bsf	Rc4Rdy
+0276  0040   1180  		ret
+0277  0843   1253  		movfw	gDatalength		;if WLengthHi > 0
+0278  00C0   1254  		movwf	gWLengthTemp		;[gWLengthTemp]=gDataLength
+0279  1F47   1255  		movrw	WLengthHi
+027A  1D00   1256  		xorlw	0
+027B  1683   1257  		btfss	Zero
+027C  0040   1258  		ret
+027D  1003   1261  		bcf	Carry
+027E  1F46   1262  		movrw	WLength			;W = WLength - gDataLength
+027F  00B1   1263  		movwf	gTempVar1		;if(WLength >= gDataLength)
+0280  0843   1264  		movfw	gDatalength	 	;[gWLengthTemp]=gDataLength
+0281  0231   1265  		subwf	gTempVar1,W
+0282  1403   1266  		btfsc	Carry
+0283  0040   1267  		ret
+0284  15A5   1268  		btfsc	VerTestDoneFlag
+0285  0040   1269  		ret
+0286  1F46   1270  		movrw	WLength			;if(WLength < gDataLength)
+0287  00C0   1271  		movwf	gWLengthTemp		;[gWLengthTemp]=WLength
+0288  0040   1272  		ret
+0289  01C1   1277  		clrf	gLengthCnt		;reset the count of send , gLengthCnt=0
+028A  08C0   1278  		testz	gWLengthTemp
+028B  1483   1279  		btfsc	Zero
+028C  329F   1280  		goto	SetTgl
+028D  1950   1283  		movlw	Tx0Fifo0
+028E  0085   1284  		movwf	Rsr
+028F  1908   1285  		movlw	8
+0290  00B1   1286  		movwf	gTempVar1
+0291  0842   1322  		movfw	gTableCnt
+0292  2C00   1323  		call	DeviceDescTable
+0293  1E00   1325  		movwr	Indf
+0294  0AC2   1326  		incf	gTableCnt,F		;increase index
+0295  0AC1   1327  		incf	gLengthCnt,F		;increase count of send			;gLengthCnt=1
+0296  03C0   1328  		decf	gWLengthTemp,F
+0297  0A85   1329  		incf	Rsr,F
+0298  03B1   1331  		decf	gTempVar1,F
+0299  1483   1332  		btfsc	Zero
+029A  329F   1333  		goto	SetTgl
+029B  08C0   1335  		testz	gWLengthTemp
+029C  1683   1336  		btfss	Zero
+029D  3291   1337  		goto	Tx0ByteLoop
+029E  10EB   1338  		bcf	gfUSEinitGetDescriptor
+029F  0841   1342  		movfw	gLengthCnt
+02A0  2106   1343  	    	call	EP0Transfer
+02A1  0040   1345  		ret
+02A2  1F40   1349  		movrw	BmRequestType
+02A3  1D80   1350    		xorlw	DeviceToHost		;80
+02A4  1483   1351    		btfsc	Zero
+02A5  32AE   1352    		goto	GetDescriptorType
+02A6  1F40   1354    		movrw	BmRequestType
+02A7  1D81   1355    		xorlw	InterfaceToHost	   	;81
+02A8  1483   1356    		btfsc	Zero
+02A9  32AE   1357    		goto	GetDescriptorType
+02AA  1F40   1359  		movrw	BmRequestType
+02AB  1D82   1360    		xorlw	EndpointToHost		;82
+02AC  1683   1361    		btfss	Zero
+02AD  3225   1363    		goto	SetupCmdErr
+02AE  1F43   1366    		movrw	WValueHi
+02AF  1D01   1367    		xorlw	Device			;01h
+02B0  1483   1368    		btfsc	Zero
+02B1  32C3   1369    		goto	DeviceType		;get decice descriptor
+02B2  1F43   1371    		movrw	WValueHi
+02B3  1D02   1372    		xorlw	Configuration		;02h
+02B4  1483   1373    		btfsc	Zero
+02B5  32DD   1374    		goto	ConfigurationType	;get config descriptor
+02B6  1F43   1376    		movrw	WValueHi
+02B7  1D03   1377  		xorlw	String			;03h
+02B8  1483   1378    		btfsc	Zero
+02B9  32E2   1379   		goto	StringType		;get string descriptor
+02BA  1F43   1382    		movrw	WValueHi
+02BB  1D21   1383  		xorlw	HidClass		;21h
+02BC  1483   1384    		btfsc	Zero
+02BD  3300   1385   		goto	HidClassType		;get string descriptor
+02BE  1F43   1387    		movrw	WValueHi
+02BF  1D22   1388  		xorlw	HidReport		;22h
+02C0  1483   1389    		btfsc	Zero
+02C1  330A   1390   		goto	HidReportType		;get string descriptor
+02C2  3225   1393    		goto	SetupCmdErr		;others, set Ep0 Stall
+02C3  1124   1398  		bcf	Check_Flag
+02C4  1164   1399  	 	bcf	JudgeSendFlag
+02C5  12EC   1400  		bsf	USB30TestFlag
+02C6  14AC   1402  		btfsc	USB30TrueFlag
+02C7  32D1   1403  		goto	$+10
+02C8  1F46   1404  		movrw	WLength
+02C9  1D40   1405      		xorlw	40h
+02CA  1483   1406      		btfsc	Zero
+02CB  12A4   1407      		bsf	OSType
+02CC  1F46   1408      		movrw	WLength
+02CD  1D08   1409      		xorlw	08h
+02CE  1483   1410      		btfsc	Zero
+02CF  10A4   1411      		bcf	OSType
+02D0  32D2   1412  		goto	$+2
+02D1  12A4   1413  		bsf	OSType
+02D2  1F46   1417      	movrw	WLength					;
+02D3  1D08   1418      	xorlw	08h
+02D4  1483   1419      	btfsc	Zero			
+02D5  122F   1420  		bsf GetDeviceDspt08Byte
+02D6  142F   1422  		btfsc GetDeviceDspt08Byte		;specific MAC PC will re-get device descriptior
+02D7  10A4   1423  		bcf OSType
+02D8  12EB   1426  		bsf	gfUSEinitGetDescriptor
+02D9  01C2   1427  		clrf	gTableCnt
+02DA  1912   1428  		movlw	DeviceLen
+02DB  00C3   1429  		movwf	gDatalength
+02DC  3315   1430  		goto	GetDescriptorTaskSend
+02DD  1912   1433  		movlw	ConfigIndex		;Config start rom offset
+02DE  00C2   1434  		movwf	gTableCnt
+02DF  1922   1435  		movlw	ConfigLen
+02E0  00C3   1436  		movwf	gDatalength
+02E1  3315   1437  		goto	GetDescriptorTaskSend
+02E2  1F42   1440    		movrw	WValue
+02E3  1D00   1441    		xorlw	String0
+02E4  1483   1442  		btfsc	Zero
+02E5  32EF   1443  		goto	SendString0
+02E6  1F42   1445  		movrw	WValue
+02E7  1D01   1446    		xorlw	String1
+02E8  1483   1447  		btfsc	Zero
+02E9  32F4   1448  		goto	SendString1
+02EA  1F42   1450  		movrw	WValue
+02EB  1D02   1451    		xorlw	String2
+02EC  1483   1452  		btfsc	Zero
+02ED  32FA   1453  		goto	SendString2
+02EE  3225   1456  		goto	SetupCmdErr
+02EF  1934   1460  	  	movlw	String0Index
+02F0  00C2   1461  	  	movwf	gTableCnt
+02F1  1904   1462  		movlw	String0Len
+02F2  00C3   1463  		movwf	gDatalength
+02F3  3315   1464  		goto	GetDescriptorTaskSend
+02F4  0ABF   1467  		incf	getstring1counter,F
+02F5  1938   1482  	  	movlw	String1Index
+02F6  00C2   1485  	  	movwf	gTableCnt
+02F7  190A   1486  		movlw	String1Len
+02F8  00C3   1489  		movwf	gDatalength
+02F9  3315   1490  		goto	GetDescriptorTaskSend
+02FA  0ABD   1493  		incf	getstring2counter,F
+02FB  1942   1510  	  	movlw	String2Index
+02FC  00C2   1513  	  	movwf	gTableCnt			;table content
+02FD  191C   1514  		movlw	String2Len
+02FE  00C3   1517  		movwf	gDatalength
+02FF  3315   1518  		goto	GetDescriptorTaskSend
+0300  1F42   1522  		movrw	WValue
+0301  1D00   1523    		xorlw	00h
+0302  1483   1524  		btfsc	Zero
+0303  3305   1525  		goto	HidClass1
+0304  3225   1531  		goto	SetupCmdErr
+0305  1924   1533  		movlw	HidClass1Index
+0306  00C2   1534  		movwf	gTableCnt
+0307  1909   1535  		movlw	HidClassLen
+0308  00C3   1536  		movwf	gDatalength
+0309  3315   1537  		goto	GetDescriptorTaskSend
+030A  0AFF   1548  		incf	Getreportcount,F
+030B  1F44   1549  		movrw	WIndex
+030C  1D00   1550    		xorlw	00h
+030D  1483   1551  		btfsc	Zero
+030E  3310   1552  		goto	HidReport1
+030F  3225   1558  		goto	SetupCmdErr
+0310  195E   1560  		movlw	HidReport1Index
+0311  00C2   1561  		movwf	gTableCnt
+0312  1962   1562  		movlw	HidReport1Len
+0313  00C3   1563  		movwf	gDatalength
+0314  3315   1565  		goto	GetDescriptorTaskSend
+0315  2277   1617  		call	CheckLength		;Decide What Size to send
+0316  11A5   1618  		bcf	VerTestDoneFlag
+0317  2289   1619  		call	Tx0Transfer		;Prepare data and send it
+0318  0040   1621  		ret
+0319  1263   1640  		bsf	gbNewAddrFlag
+031A  16EC   1641  		btfss	USB30TestFlag
+031B  12AC   1642  		bsf	USB30TrueFlag			;if setAddress tack work before getDeviceDpt, do it.
+031C  210F   1643  		call	NoDataControl
+031D  0040   1644  		ret
+031E  1F40   1648  		movrw	BmRequestType
+031F  1D80   1649  		xorlw	DeviceToHost
+0320  1683   1650    		btfss	Zero
+0321  3225   1651    		goto	SetupCmdErr
+0322  0845   1653    		movfw	gConfigurationStatus	;config status
+0323  1E50   1654    		movwr	Tx0Fifo0
+0324  19C1   1655    		movlw	c1h			;TX0Rdy=1,TX0tgl=1,TX0cnt=1
+0325  0094   1656    		movwf	Tx0Reg
+0326  0040   1657  		ret
+0327  1F40   1661  		movrw	BmRequestType
+0328  1D00   1662  		xorlw	0
+0329  1683   1663    		btfss	Zero
+032A  3225   1664    		goto	SetupCmdErr
+032B  1F42   1667  		movrw	WValue
+032C  1D00   1668  		xorlw	0
+032D  1683   1669    		btfss	Zero
+032E  3338   1670    		goto	ConfigType		;1 is config
+032F  1F42   1672  		movrw	WValue
+0330  00C5   1673    		movwf	gConfigurationStatus	;gConfigurationStatus=0
+0331  19E0   1674    		movlw	EN_INT0_UNCONF
+0332  1E11   1675  		movwr	Int0IeReg
+0333  1915   1676  		movlw	EN_INT1_UNCONF
+0334  1E12   1677  		movwr	Int1IeReg
+0335  10E4   1678  		bcf	StartScanFlag
+0336  210F   1679     		call	NoDataControl
+0337  0040   1680  		ret
+0338  1F42   1683     	  	movrw	WValue
+0339  00C5   1684    		movwf	gConfigurationStatus
+033A  197D   1686    		movlw	7dh
+033B  00CC   1687  		movwf	IdlePeriodStatus
+033C  00DB   1688  		movwf	IdlePeriodTemp
+033D  19FC   1690   		movlw	EN_INT0_NORMAL
+033E  1E11   1691  		movwr	Int0IeReg
+033F  1915   1692  		movlw	EN_INT1_NORMAL
+0340  1E12   1693  		movwr	Int1IeReg
+0341  19D0   1695  		movlw	d0h
+0342  0097   1696  		movwf	Tx3Reg
+0343  1990   1698  		movlw	90h
+0344  0098   1699  		movwf	Rc4Reg
+0345  1353   1701  		bsf	Ep1Cfg
+0346  1195   1702  		bcf	Tx1Tgl
+0347  1313   1703  		bsf	Ep2Cfg
+0348  1196   1704  		bcf	Tx2Tgl
+0349  1317   1705  		bsf	Ep3Cfg
+034A  1318   1706  		bsf	Ep4Cfg
+034B  13D8   1707  		bsf	Rc4Rdy
+034C  210F   1714  		call	NoDataControl
+034D  247B   1715  		call	CheckE2PROMSize
+034E  0040   1716  		ret
+034F  1F40   1719  		movrw	BmRequestType
+0350  1D00   1720  		xorlw	HostToDevice		;00h
+0351  1483   1721    		btfsc	Zero
+0352  337E   1722    		goto	ClearRemoteWakeup
+0353  1F40   1724  		movrw	BmRequestType
+0354  1D02   1725    		xorlw	HostToEndpoint		;02h
+0355  1683   1726    		btfss	Zero
+0356  3225   1727    		goto	SetupCmdErr
+0357  08C5   1730  		testz	gConfigurationStatus	;gConfigurationStatus = Config ?
+0358  1483   1731  		btfsc	Zero
+0359  3225   1732  		goto	SetupCmdErr
+035A  1F44   1735    		movrw	WIndex
+035B  1D80   1736    		xorlw	Endpoint0
+035C  1483   1737  		btfsc	Zero
+035D  337B   1738  		goto	ClrEp0Stall
+035E  1F44   1740  		movrw	WIndex
+035F  1D81   1741    		xorlw	Endpoint1
+0360  1483   1742  		btfsc	Zero
+0361  3378   1743  		goto	ClrEp1Stall
+0362  1F44   1745  		movrw	WIndex
+0363  1D82   1746    		xorlw	Endpoint2
+0364  1483   1747  		btfsc	Zero
+0365  3375   1748  		goto	ClrEp2Stall
+0366  1F44   1750  		movrw	WIndex
+0367  1D83   1751    		xorlw	Endpoint3
+0368  1483   1752  		btfsc	Zero
+0369  3371   1753  		goto	ClrEp3Stall
+036A  1F44   1755  		movrw	WIndex
+036B  1D04   1756    		xorlw	Endpoint4
+036C  1683   1757  		btfss	Zero
+036D  3225   1758  		goto	SetupCmdErr
+036E  1157   1761    		bcf	Ep3Stall
+036F  1158   1762  		bcf	Ep4Stall		;clear Ep4 stall
+0370  3384   1764  		goto	ClearFeatureTaskSend
+0371  1397   1767  		bsf	Tx3Tgl			;Keep 1, let NEXT packet use DATA0.
+0372  1158   1768  	  	bcf	Ep4Stall
+0373  1157   1769  		bcf	Ep3Stall		;clear Ep3 Stall
+0374  3384   1771  		goto	ClearFeatureTaskSend
+0375  1156   1773  		bcf	Ep2Stall		;clear Ep2 Stall
+0376  1196   1774  		bcf	Tx2Tgl			;clear Rc2 toggle bit
+0377  3384   1775  		goto	ClearFeatureTaskSend
+0378  1155   1777  	  	bcf	Ep1Stall		;clear Ep1 Stall
+0379  1195   1778  	  	bcf	Tx1Tgl			;clear Tx1 toggle bit
+037A  3384   1779  		goto	ClearFeatureTaskSend
+037B  1154   1781  	  	bcf	Ep0Stall		;clear Ep0 Stall
+037C  1194   1782  	  	bcf	Tx0Tgl			;clear Tx0 toggle bit
+037D  3384   1783  		goto	ClearFeatureTaskSend
+037E  1F42   1785    		movrw	WValue
+037F  1D01   1786  		xorlw	Device			;Feature Id=02h
+0380  1683   1787  		btfss	Zero
+0381  3225   1788  		goto	SetupCmdErr
+0382  1900   1789  		movlw	DisableRemoteWakeup
+0383  00C4   1790  		movwf	gRemoteWakeupStatus
+0384  210F   1793  		call	NoDataControl
+0385  0040   1794  		ret
+0386  1F40   1797  		movrw	BmRequestType
+0387  1D00   1798  		xorlw	HostToDevice
+0388  1483   1799    		btfsc	Zero
+0389  33A9   1800    		goto	SetRemoteWakeup
+038A  1F40   1802  		movrw	BmRequestType
+038B  1D02   1803    		xorlw	HostToEndpoint
+038C  1683   1804    		btfss	Zero
+038D  3225   1805    		goto	SetupCmdErr
+038E  08C5   1808  		testz	gConfigurationStatus	;gConfigurationStatus = Config ?
+038F  1483   1809  		btfsc	Zero
+0390  3225   1810  		goto	SetupCmdErr
+0391  1F44   1813    		movrw	WIndex
+0392  1D81   1814  		xorlw	Endpoint1
+0393  1483   1815  		btfsc	Zero
+0394  33A7   1816  		goto	SetEp1Stall
+0395  1F44   1818  		movrw	WIndex
+0396  1D82   1819  		xorlw	Endpoint2
+0397  1483   1820  		btfsc	Zero
+0398  33A5   1821  		goto	SetEp2Stall
+0399  1F44   1823  		movrw	WIndex
+039A  1D83   1824  		xorlw	Endpoint3
+039B  1483   1825  		btfsc	Zero
+039C  33A3   1826  		goto	SetEp3Stall
+039D  1F44   1828  		movrw	WIndex
+039E  1D04   1829  		xorlw	Endpoint4
+039F  1683   1830  		btfss	Zero
+03A0  3225   1831  		goto	SetupCmdErr
+03A1  1358   1833  		bsf	Ep4Stall
+03A2  33AF   1834  		goto	SetFeatureTaskSend
+03A3  1357   1837  		bsf	Ep3Stall
+03A4  33AF   1838  		goto	SetFeatureTaskSend
+03A5  1356   1841  		bsf	Ep2Stall
+03A6  33AF   1842  		goto	SetFeatureTaskSend
+03A7  1355   1845  		bsf	Ep1Stall
+03A8  33AF   1846  		goto	SetFeatureTaskSend
+03A9  1F42   1849    		movrw	WValue
+03AA  1D01   1850  		xorlw	Device		;Feature Id=02h
+03AB  1683   1851  		btfss	Zero
+03AC  3225   1852  		goto	SetupCmdErr
+03AD  1902   1853  		movlw	EnableRemoteWakeup
+03AE  00C4   1854  		movwf	gRemoteWakeupStatus
+03AF  210F   1857  		call	NoDataControl
+03B0  0040   1858  		ret
+03B1  1F40   1863  		movrw	BmRequestType
+03B2  1D80   1864  		xorlw	DeviceToHost
+03B3  1483   1865    		btfsc	Zero
+03B4  33EC   1866    		goto	GetDeviceStatus
+03B5  1F40   1868  		movrw	BmRequestType
+03B6  1D81   1869    		xorlw	InterfaceToHost
+03B7  1483   1870    		btfsc	Zero
+03B8  33F1   1871  		goto	GetInterfaceStatus
+03B9  1F40   1873  		movrw	BmRequestType
+03BA  1D82   1874  		xorlw	EndpointToHost
+03BB  1683   1875    		btfss	Zero
+03BC  3225   1876  		goto	SetupCmdErr
+03BD  08C5   1879  		testz	gConfigurationStatus	;gConfigurationStatus = Config ?
+03BE  1483   1880    		btfsc	Zero
+03BF  3225   1881    		goto	SetupCmdErr
+03C0  1F44   1883  		movrw	WIndex
+03C1  1D80   1884    		xorlw	Endpoint0	;00h
+03C2  1483   1885    		btfsc	Zero
+03C3  33D9   1886    		goto	GetEp0Status
+03C4  1F44   1888  		movrw	WIndex
+03C5  1D81   1889    		xorlw	Endpoint1	;01h
+03C6  1483   1890    		btfsc	Zero
+03C7  33DC   1891    		goto	GetEp1Status
+03C8  1F44   1893  		movrw	WIndex
+03C9  1D82   1894    		xorlw	Endpoint2
+03CA  1483   1895    		btfsc	Zero
+03CB  33E1   1896    		goto	GetEp2Status
+03CC  1F44   1898  		movrw	WIndex
+03CD  1D83   1899    		xorlw	Endpoint3	;01h
+03CE  1483   1900    		btfsc	Zero
+03CF  33E6   1901    		goto	GetEp3Status
+03D0  1F44   1903    		movrw	WIndex
+03D1  1D04   1904    		xorlw	Endpoint4
+03D2  1683   1905    		btfss	Zero
+03D3  3225   1906    		goto	SetupCmdErr
+03D4  1900   1908    		movlw	00h
+03D5  1E50   1909    		movwr	Tx0Fifo0	;clear stauts1
+03D6  1558   1910    		btfsc	Ep4Stall
+03D7  1901   1911  		movlw	01h
+03D8  33EA   1912    		goto	GetEndpointStatusEnd
+03D9  1900   1915    		movlw	00h
+03DA  1E51   1916    		movwr	Tx0Fifo1
+03DB  33EA   1917    		goto	GetEndpointStatusEnd
+03DC  1900   1920    		movlw	00h
+03DD  1E51   1921    		movwr	Tx0Fifo1	;clear stauts1
+03DE  1555   1922    		btfsc	Ep1Stall
+03DF  1901   1923  		movlw	01h		;if stall set status=1
+03E0  33EA   1924  		goto	GetEndpointStatusEnd
+03E1  1900   1927    		movlw	00h
+03E2  1E51   1928    		movwr	Tx0Fifo1	;clear stauts1
+03E3  1556   1929    		btfsc	Ep2Stall
+03E4  1901   1930  		movlw	01h
+03E5  33EA   1931  		goto	GetEndpointStatusEnd
+03E6  1900   1933     		movlw	00h
+03E7  1E51   1934    		movwr	Tx0Fifo1	;clear stauts1
+03E8  1557   1935    		btfsc	Ep3Stall
+03E9  1901   1936  		movlw	01h
+03EA  1E50   1938  		movwr	Tx0Fifo0
+03EB  33F5   1939  		goto	GetStatusTaskSend
+03EC  0844   1942    		movfw	gRemoteWakeupStatus
+03ED  1E50   1943    		movwr	Tx0Fifo0
+03EE  1900   1944    		movlw	00h
+03EF  1E51   1945    		movwr	Tx0Fifo1
+03F0  33F5   1946    		goto	GetStatusTaskSend
+03F1  0846   1949    		movfw	gCurAlternate
+03F2  1E50   1950    		movwr	Tx0Fifo0
+03F3  1900   1951    		movlw   00h
+03F4  1E51   1952    		movwr	Tx0Fifo1
+03F5  19C2   1955    		movlw	c2h		;TX0rdy=1,TX0tgl=1,TX0cnt=2
+03F6  0094   1956    		movwf	Tx0Reg
+03F7  0040   1957  		ret
+03F8  1F40   1961  		movrw	BmRequestType
+03F9  1D81   1962  		xorlw	InterfaceToHost
+03FA  1683   1963    		btfss	Zero
+03FB  3225   1964    		goto	SetupCmdErr
+03FC  0846   1967     		movfw	gCurAlternate
+03FD  1E50   1968     		movwr	Tx0Fifo0
+03FE  19C1   1969     		movlw	c1h		;TX0rdy=1,TX0tgl=1,TX0cnt=1
+03FF  0094   1970    		movwf	Tx0Reg
+0400  0040   1971  		ret
+0401  1F40   1975  		movrw	BmRequestType
+0402  1D01   1976  		xorlw	HostToInterface	;(HostToDevice|Standard|Interface)
+0403  1683   1977    		btfss	Zero
+0404  3225   1978    		goto	SetupCmdErr
+0405  1F42   1980     		movrw	WValue
+0406  00C6   1981     		movwf   gCurAlternate   ;keep the gCurAlternate setting
+0407  1F44   1983  		movrw	WIndex
+0408  1D00   1984    		xorlw	Interface0	;check interface 0?
+0409  1483   1985    		btfsc	Zero
+040A  3424   1986    		goto	SetInterface0
+040B  1F44   1988    		movrw	WIndex
+040C  1D01   1989    		xorlw	Interface1	;check interface 1
+040D  1483   1990    		btfsc	Zero
+040E  341D   1991    		goto	SetInterface1
+040F  1F44   1993    		movrw	WIndex
+0410  1D02   1994    		xorlw	Interface2	;check interface 2
+0411  1683   1995    		btfss	Zero
+0412  3225   1996    		goto	SetupCmdErr	;
+0413  1F42   1999  		movrw	WValue
+0414  1D00   2000  		xorlw	0
+0415  1683   2001  		btfss   Zero
+0416  341A   2002     		goto	SIT2_SetNewAlternate
+0417  1113   2003     		bcf	Ep2Cfg
+0418  210F   2004  		call	NoDataControl
+0419  0040   2005  		ret
+041A  1313   2007  		bsf	Ep2Cfg
+041B  210F   2008  		call	NoDataControl
+041C  0040   2009  		ret
+041D  1F42   2012  		movrw	WValue
+041E  1D00   2013  		xorlw	0
+041F  3423   2014     		goto	SetNewAlternate
+0420  1153   2015     		bcf	Ep1Cfg
+0421  210F   2016  		call	NoDataControl
+0422  0040   2017  		ret
+0423  1353   2019  		bsf	Ep1Cfg
+0424  210F   2022  		call	NoDataControl
+0425  0040   2023  		ret
+0426  15E1   2033  		btfsc   gbRc0Flag
+0427  3113   2034  		goto	Rc0Task		;setup token
+0428  15A1   2036  		btfsc   gbOut0Flag
+0429  3227   2037  		goto	Ep0OutTask	;control write
+042A  1561   2039  		btfsc	gbTx0Flag
+042B  3261   2040  		goto	Tx0Task
+042C  14A1   2043  		btfsc	gbSuspendFlag
+042D  30F5   2044  		goto	SuspendTask
+042E  0040   2049  		ret
+042F  00B6   2055  		movwf	gTempVar6
+0430  2435   2057  		call	KeepDelay62us
+0431  1E04   2058  		clrwdt
+0432  0BB6   2059  		decfsz	gTempVar6,F
+0433  3430   2060  		goto	KeepLoopDelay
+0434  0040   2061  		ret
+0435  197D   2064  		movlw	125		;220
+0436  00B5   2065  		movwf	gTempVar5
+0437  0BB5   2067  		decfsz	gTempVar5,F
+0438  3437   2068  		goto	LoopDelay
+0439  0040   2069  		ret
+043A  1083   2072  		bcf	Zero
+043B  0040   2073  		ret
+043C  16A1   2078  		btfss	gbSuspendFlag
+043D  0040   2079  		ret
+043E  1393   2081  		bsf	Resume		;RESUME signal ON
+043F  19A0   2082  		movlw	160d		;10ms
+0440  242F   2083  		call	KeepDelay
+0441  1193   2084  		bcf	Resume		;RESUME signal OFF
+0442  0060   2085  		reti
+0443  124A   2091  		bsf	LED1
+0444  108A   2092  		bcf	LED2
+0445  20BD   2093  		call	SystemReset
+0446  190C   2094  		movlw	0ch				;Try Pb2/Pb3 pull-up;TestV7
+0447  1E26   2095  		movwr	PBPU
+0448  19FF   2096  		movlw	ffh
+0449  0087   2097  		movwf	PbReg			;avoid DM unexpected error, PB.2/PB.3 must set high
+044A  102F   2099  		bcf GetDeviceDspt08Byte
+044B  102A   2100  		bcf	gbResetPath
+044C  20E1   2101  		call	UsbReset
+044D  13E5   2102  		bsf	MacVerFlag
+044E  2426   2105  		call	IntCheck
+044F  1E04   2106  		clrwdt
+0450  16E4   2107  		btfss	StartScanFlag		;when setconfiguration this flag is 0, then be set 1 at setidle 
+0451  344E   2108  		goto	ATTACH_LOOP
+0452  1764   2122  		btfss	JudgeSendFlag		
+0453  3470   2123  		goto	Continue			;windows go there first
+0454  156E   2125  		btfsc AndroidOSFlag
+0455  3462   2126  		goto PulgInDataPre
+0456  086A   2128  		movfw	DelayCount			;mac go there first		;delay time from get report
+0457  023E   2129  		subwf	TimerRollOver,W
+0458  1603   2130  		btfss	Carry
+0459  344E   2131  		goto	ATTACH_LOOP
+045A  08EB   2132  		testz	DelayCountH
+045B  1483   2133  		btfsc	Zero
+045C  3462   2134  		goto	$+6
+045D  01BE   2135  		clrf	TimerRollOver
+045E  03EB   2136  		decf	DelayCountH,F
+045F  198A   2137  		movlw	8ah
+0460  00EA   2138  		movwf	DelayCount
+0461  344E   2139  		goto	ATTACH_LOOP
+0462  01BE   2142  		clrf	TimerRollOver
+0463  1164   2143  		bcf	JudgeSendFlag
+0464  01BF   2144  		clrf	getstring1counter
+0465  249E   2146  		call	PlugInTask_E2PROM
+0466  156E   2149  		btfsc	AndroidOSFlag
+0467  346D   2150  		goto	$+6;$+4
+0468  10AF   2152  		bcf setting0x51addrFlag
+0469  01B0   2153  		clrf gTempVar0
+046A  24D2   2154  		call	PrepareDataTask1
+046B  26EC   2155  		call	DataTransfer1
+046C  344E   2156  		goto	ATTACH_LOOP
+046D  2A21   2157  		call	PrepareData_Android
+046E  2AC0   2158  		call	DataTransfer1_android		
+046F  344E   2159  		goto	ATTACH_LOOP
+0470  2483   2161  		call	KeyscanTask
+0471  1425   2162  		btfsc	GUIFlag
+0472  3466   2163  		goto	SendPreData
+0473  146F   2164  		btfsc AndroidURLDoneFlag
+0474  3478   2165  		goto	ThirdStage
+0475  2767   2166  		call	PrepareDataTask
+0476  2893   2167  		call	ReportTask
+0477  344E   2169  		goto	ATTACH_LOOP
+0478  2A21   2171  		call	PrepareData_Android
+0479  2AC0   2172  		call	DataTransfer1_android
+047A  344E   2173  		goto	ATTACH_LOOP
+047B  1143   2306  		bcf		RamBank
+047C  1900   2307  		movlw	00h
+047D  00CA   2310  		movwf	R_I2C_Address1
+047E  00C7   2311  		movwf	TempReg
+047F  00BC   2312  		movwf	WorkReg
+0480  00F0   2313  		movwf	DataBuffer0
+0481  00EE   2314  		movwf	ReadI2CAddressH
+0482  0040   2315          ret
+0483  1607   2359  		btfss	PbReg,0
+0484  3487   2360  		goto	$+3
+0485  11EB   2361  		bcf	KeyPressedFlag
+0486  11AB   2362  		bcf	PressToggleFlag
+0487  15EB   2363  		btfsc	KeyPressedFlag
+0488  0040   2364  		ret
+0489  1523   2366  		btfsc	DataOKFlag
+048A  0040   2367  		ret
+048B  0907   2369  		comf	PbReg,W
+048C  1B01   2370  		andlw	01h
+048D  1483   2371  		btfsc	Zero
+048E  0040   2372  		ret
+048F  2435   2373  		call	KeepDelay62us
+0490  0907   2374  		comf	PbReg,W
+0491  1B01   2375  		andlw	01h
+0492  1483   2376  		btfsc	Zero
+0493  0040   2377  		ret
+0494  15AB   2378  		btfsc	PressToggleFlag
+0495  3499   2379  		goto	$+4
+0496  13AB   2380  		bsf	PressToggleFlag
+0497  01BE   2381  		clrf	TimerRollOver
+0498  0040   2382  		ret
+0499  190A   2383  		movlw	0ah
+049A  023E   2384  		subwf	TimerRollOver,W
+049B  1603   2385  		btfss	Carry
+049C  0040   2386  		ret
+049D  13EB   2387  		bsf	KeyPressedFlag
+049E  106A   2393  		bcf	EndTransFlag
+049F  12AB   2398  		bsf	DataInFlag1
+04A0  10AA   2399  		bcf	OneFlag
+04A1  1900   2400  		movlw	00h
+04A2  00D0   2401  		movwf	ScanNumber
+04A3  00C9   2405  		movwf	R_I2C_Address
+04A4  01D1   2406  		clrf	TempCount
+04A5  01D2   2407  		clrf	EndMaxURL40h
+04A6  254D   2415  		call	GetWindowsInfo
+04A7  2561   2416  		call	GetMACInfo
+04A8  256E   2417  		call	GetAndroidInfo
+04A9  1910   2421  		movlw	10h 
+04AA  0664   2422  		xorwf	LanguageType,W;ReadBuffer1,W
+04AB  1483   2423  		btfsc	Zero 
+04AC  34B1   2424  		goto	$+5
+04AD  1902   2425  		movlw	02h 
+04AE  0664   2426  		xorwf	LanguageType,W;ReadBuffer1,W
+04AF  1683   2427  		btfss	Zero 
+04B0  34B2   2428  		goto	$+2
+04B1  126D   2430  		bsf		CheckLanguage
+04B2  087A   2476  		movfw	URLAddressIndex			;refresh url starting address
+04B3  16A4   2477  		btfss	OSType
+04B4  087C   2478  		movfw	MacURLAddressIndex
+04B5  156E   2479  			btfsc	AndroidOSFlag		;if OS is android
+04B6  084E   2480  			movfw	AndroidURLIndex
+04B7  00C9   2481  		movwf	R_I2C_Address
+04B8  1483   2483  		btfsc	Zero
+04B9  24C1   2485  		call	ChangeBufferData		;Change Data for open a vacant web
+04BA  1323   2486  		bsf	DataOKFlag
+04BB  1905   2487  		movlw	05h
+04BC  156D   2488  		btfsc	E2PROM512Flag
+04BD  190A   2489  		movlw	0ah
+04BE  00D3   2490  		movwf	ReadURLTime
+04BF  1225   2491  		bsf	GUIFlag			;transmit GUI/R at first
+04C0  0040   2492  		ret
+04C1  1343   2496  		bsf	RamBank
+04C2  1968   2497  		movlw	68h
+04C3  00C0   2498  		movwf	ReadBuffer0
+04C4  1974   2499  		movlw	74h
+04C5  00C1   2500  		movwf	ReadBuffer1
+04C6  00C2   2501  		movwf	ReadBuffer2
+04C7  1970   2502  		movlw	70h
+04C8  00C3   2503  		movwf	ReadBuffer3
+04C9  193A   2504  		movlw	3ah
+04CA  00C4   2505  		movwf	ReadBuffer4
+04CB  192F   2506  		movlw	2fh
+04CC  00C5   2507  		movwf	ReadBuffer5
+04CD  00C6   2508  		movwf	ReadBuffer6
+04CE  1900   2509  		movlw	00h
+04CF  00C7   2510  		movwf	ReadBuffer7
+04D0  1143   2511  		bcf	RamBank
+04D1  0040   2512  		ret
+04D2  14A4   2515  		btfsc	OSType
+04D3  3656   2516  		goto	PrepareData_Win
+04D4  16AB   2518  		btfss	DataInFlag1
+04D5  0040   2519  		ret
+04D6  14AA   2520  		btfsc	OneFlag
+04D7  0040   2521  		ret
+04D8  12EA   2522  		bsf	TransFlag
+04D9  12AA   2523  		bsf	OneFlag
+04DA  152A   2524  		btfsc	PlugFlag
+04DB  0040   2525  		ret
+04DC  0850   2526  		movfw	ScanNumber
+04DD  2600   2529  		call	GetKeyValuePro_Mac
+04DE  00D5   2532  		movwf	UsbKeyBuffer2
+04DF  19E1   2533  		movlw	E1h
+04E0  0655   2534  		xorwf	UsbKeyBuffer2,W
+04E1  1683   2535  		btfss	Zero
+04E2  34E9   2536  		goto	NormalKeyValue0
+04E3  1900   2537  		movlw	00h						
+04E4  00D4   2538  		movwf	UsbKeyBuffer0
+04E5  1991   2548  		movlw	91h					;switch to single char country language for mac
+04E6  00D5   2551  		movwf	UsbKeyBuffer2
+04E7  0AD0   2552  		incf	ScanNumber,F
+04E8  0040   2553  		ret
+04E9  19E2   2555  		movlw	E2h
+04EA  0655   2556  		xorwf	UsbKeyBuffer2,W
+04EB  1683   2557  		btfss	Zero
+04EC  34F7   2558  		goto	NormalKeyValue01
+04ED  190A   2559  		movlw	0ah 		
+04EE  00D4   2560  		movwf	UsbKeyBuffer0		
+04EF  166D   2561  		btfss	CheckLanguage
+04F0  34F3   2562  		goto	$+3
+04F1  1914   2563  		movlw	14h
+04F2  34F4   2564  		goto	$+2	
+04F3  1904   2565  		movlw	04h    				
+04F4  00D5   2566  		movwf	UsbKeyBuffer2
+04F5  0AD0   2567  		incf	ScanNumber,F 
+04F6  0040   2568  		ret
+04F7  19E3   2580  		movlw	E3h
+04F8  0655   2581  		xorwf	UsbKeyBuffer2,W
+04F9  1683   2582  		btfss	Zero
+04FA  3507   2583  		goto	NormalKeyValue02
+04FB  1900   2585  		movlw	00h
+04FC  01D5   2586  		clrf	UsbKeyBuffer2
+04FD  1901   2588  		movlw	01h
+04FE  0572   2589  		andwf	CtrlCmdSpace,W
+04FF  1483   2590  		btfsc	Zero
+0500  3505   2591  		goto	$+5
+0501  1901   2593  		movlw	01h;08h
+0502  00D4   2594  		movwf	UsbKeyBuffer0
+0503  192C   2595  		movlw	2ch;12h
+0504  00D5   2596  		movwf	UsbKeyBuffer2
+0505  0AD0   2597  		incf	ScanNumber,F  
+0506  0040   2598  		ret
+0507  19E4   2601  		movlw	E4h
+0508  0655   2602  		xorwf	UsbKeyBuffer2,W
+0509  1683   2603  		btfss	Zero
+050A  350E   2604  		goto	NormalKeyValue03
+050B  25A1   2607  		call	WaitforLangSwitch
+050C  01D5   2608  		clrf	UsbKeyBuffer2			;remember clrf UsbKeyBuffer2
+050D  0040   2611  		ret
+050E  19E5   2624  		movlw	E5h
+050F  0655   2625  		xorwf	UsbKeyBuffer2,W
+0510  1683   2626  		btfss	Zero
+0511  3518   2627  		goto	NormalKeyValue04
+0512  1908   2628  		movlw	08h
+0513  00D4   2629  		movwf	UsbKeyBuffer0
+0514  190F   2630  		movlw	0fh
+0515  00D5   2631  		movwf	UsbKeyBuffer2
+0516  0AD0   2632  		incf	ScanNumber,F
+0517  0040   2633  		ret
+0518  19E6   2636  		movlw	E6h
+0519  0655   2637  		xorwf	UsbKeyBuffer2,W
+051A  1683   2638  		btfss	Zero
+051B  3528   2639  		goto	NormalKeyValue05
+051C  1900   2641  		movlw	00h
+051D  01D5   2642  		clrf	UsbKeyBuffer2
+051E  1902   2644  		movlw	02h
+051F  0572   2645  		andwf	CtrlCmdSpace,W
+0520  1483   2646  		btfsc	Zero
+0521  3526   2647  		goto	$+5
+0522  1908   2649  		movlw	08h
+0523  00D4   2650  		movwf	UsbKeyBuffer0
+0524  192C   2651  		movlw	2ch
+0525  00D5   2652  		movwf	UsbKeyBuffer2
+0526  0AD0   2653  		incf	ScanNumber,F 		
+0527  0040   2654  		ret
+0528  19E7   2657  		movlw	E7h
+0529  0655   2658  		xorwf	UsbKeyBuffer2,W
+052A  1683   2659  		btfss	Zero
+052B  3532   2660  		goto	NormalKeyValue06
+052C  1908   2661  		movlw	08h;02h
+052D  00D4   2662  		movwf	UsbKeyBuffer0
+052E  1914   2663  		movlw	14h;24h
+052F  00D5   2664  		movwf	UsbKeyBuffer2
+0530  0AD0   2665  		incf	ScanNumber,F
+0531  0040   2666  		ret
+0532  01D4   2669  		clrf	UsbKeyBuffer0
+0533  0AD0   2670  		incf	ScanNumber,F
+0534  1955   2671  		movlw	MacWebLength
+0535  0250   2674  		subwf	ScanNumber,W
+0536  1603   2675  		btfss	Carry
+0537  0040   2676  		ret
+0538  01D0   2677  		clrf	ScanNumber
+0539  106A   2678  		bcf	EndTransFlag
+053A  10AB   2679  		bcf	DataInFlag1
+053B  1025   2680  		bcf	GUIFlag
+053C  10AA   2681  		bcf	OneFlag
+053D  0040   2682  		ret
+053E  01ED   2705  		clrf	DelayCount_us		;Used for a 5 ms delay at write
+053F  3540   2707    		Delay_us	8
+0540  3541   2707    		Delay_us	8
+0541  3542   2707    		Delay_us	8
+0542  3543   2707    		Delay_us	8
+0543  3544   2707    		Delay_us	8
+0544  3545   2707    		Delay_us	8
+0545  3546   2707    		Delay_us	8
+0546  3547   2707    		Delay_us	8
+0547  3548   2707    		Delay_us	8
+0548  3549   2707    		Delay_us	8
+0549  354A   2707    		Delay_us	8
+054A  0BED   2708  		decfsz	DelayCount_us,F
+054B  353F   2709  		goto	Delay5_ms
+054C  0040   2710  		ret
+054D  1901   2823  		movlw	LanguageNumber
+054E  2D78   2824  		call	WindowsURLTable
+054F  00E4   2825  		movwf	LanguageType
+0550  1902   2827  		movlw	EncryptionType
+0551  2D78   2828  		call	WindowsURLTable
+0552  00F3   2829  		movwf	EncryptionValue
+0553  1904   2831  		movlw	WindowsURLaddrStartLow
+0554  2D78   2832  		call	WindowsURLTable
+0555  00FA   2833  		movwf	URLAddressIndex
+0556  1905   2835  		movlw	WindowsURLaddrLength
+0557  2D78   2836  		call	WindowsURLTable
+0558  00FB   2837  		movwf	URLAddressLen
+0559  0AFB   2838  		incf	URLAddressLen,F		;send key judge, necessary			
+055A  1907   2840  		movlw	WindowsURLaddrEndtLow
+055B  2D78   2841  		call	WindowsURLTable
+055C  00C8   2842  		movwf	WindowsURLEnd
+055D  190D   2844  		movlw	CtrlCmdSpaceType
+055E  2D78   2845  		call	WindowsURLTable
+055F  00F2   2846  		movwf	CtrlCmdSpace		
+0560  0040   2848  		ret
+0561  1904   2851  		movlw	MACURLaddrStartLow
+0562  2E00   2852  		call	MACURLTable
+0563  00FC   2853  		movwf	MacURLAddressIndex;AndroidURLIndex
+0564  1905   2855  		movlw	MACURLaddrLength
+0565  2E00   2856  		call	MACURLTable
+0566  00FD   2857  		movwf	MacURLAddressLen	
+0567  07FD   2858  		addwf	MacURLAddressLen,F
+0568  1902   2859  		movlw	02h
+0569  07FD   2860  		addwf	MacURLAddressLen,F		
+056A  1907   2862  		movlw	MACURLaddrEndtLow
+056B  2E00   2863  		call	MACURLTable
+056C  00F5   2864  		movwf	MACURLEnd	
+056D  0040   2865  		ret		
+056E  1904   2868  		movlw	AndroidURLaddrStartLow
+056F  2F00   2869  		call	AndroidURLTable
+0570  00CE   2870  		movwf	AndroidURLIndex
+0571  1905   2872  		movlw	AndroidURLaddrLength
+0572  2F00   2873  		call	AndroidURLTable
+0573  00CF   2874  		movwf	AndroidURLLength	
+0574  07CF   2875  		addwf	AndroidURLLength,F
+0575  1902   2876  		movlw	02h
+0576  07CF   2877  		addwf	AndroidURLLength,F		
+0577  1907   2879  		movlw	AndroidURLaddrEndtLow
+0578  2F00   2880  		call	AndroidURLTable
+0579  00E5   2881  		movwf	AndroidURLEnd	
+057A  0040   2882  		ret
+057B  1940   2902  		movlw	ReadBuffer
+057C  0084   2903       		movwf	Fsr
+057D  0847   2904       		movfw	TempReg
+057E  0784   2905       		addwf	Fsr,F
+057F  083C   2906       		movfw	WorkReg
+0580  1343   2907       		bsf	RamBank
+0581  0080   2908       		movwf	Indf
+0582  1143   2909       		bcf	RamBank
+0583  0040   2910  		ret
+0584  146D   2913  		btfsc	CheckLanguage
+0585  1814   2914  		retlw	14h	
+0586  1804   2915  		retlw	04h	
+0587  14EE   2920  		btfsc	langSwitchDelayFlag
+0588  358C   2921  		goto	WaitSendNextURL_sub		
+0589  01BE   2922  		clrf	TimerRollOver
+058A  1901   2923  		movlw	01h;02h
+058B  00F0   2924  		movwf	TimerCountH
+058C  12EE   2926  		bsf		langSwitchDelayFlag
+058D  1903   2927  		movlw	03h
+058E  156E   2928  		btfsc	AndroidOSFlag
+058F  1902   2929  		movlw	02h;05h;10h
+0590  023E   2930  		subwf	TimerRollOver,W
+0591  1603   2931  		btfss	Carry		
+0592  359B   2932  		goto	clrUsbBuffer_android
+0593  08F0   2933  		testz	TimerCountH
+0594  1683   2934  		btfss	Zero
+0595  359A   2935  		goto	$+5
+0596  11EE   2937  		bcf		SendKeyNotYetFlag
+0597  01BE   2938  		clrf	TimerRollOver
+0598  10EE   2940  		bcf		langSwitchDelayFlag
+0599  0040   2941  		ret
+059A  03F0   2942  		decf	TimerCountH
+059B  13EE   2944  		bsf		SendKeyNotYetFlag
+059C  03D2   2945  		decf	EndMaxURL40h,F
+059D  03D2   2946  		decf	EndMaxURL40h,F
+059E  01D4   2947  		clrf	UsbKeyBuffer0
+059F  01D5   2948  		clrf	UsbKeyBuffer2
+05A0  0040   2949  		ret		
+05A1  14EE   2953  		btfsc	langSwitchDelayFlag
+05A2  35A6   2954  		goto	WaitforLangSwitch_sub
+05A3  01BE   2955  		clrf	TimerRollOver
+05A4  1920   2956  		movlw	20h
+05A5  00F0   2957  		movwf	TimerCountH
+05A6  12EE   2959  		bsf		langSwitchDelayFlag
+05A7  1910   2960  		movlw	10h
+05A8  156E   2961  		btfsc	AndroidOSFlag
+05A9  1930   2962  		movlw	30h;50h
+05AA  023E   2963  		subwf	TimerRollOver,W
+05AB  1603   2964  		btfss	Carry		
+05AC  35B6   2965  		goto	clrUsbBuffer
+05AD  08F0   2966  		testz	TimerCountH
+05AE  1683   2967  		btfss	Zero
+05AF  35B5   2968  		goto	$+6
+05B0  0AD0   2969  		incf	ScanNumber,F
+05B1  01BE   2970  		clrf	TimerRollOver
+05B2  01D5   2971  		clrf	UsbKeyBuffer2
+05B3  10EE   2972  		bcf		langSwitchDelayFlag
+05B4  0040   2973  		ret
+05B5  03F0   2974  		decf	TimerCountH
+05B6  01D4   2976  		clrf	UsbKeyBuffer0
+05B7  01D5   2977  		clrf	UsbKeyBuffer2
+05B8  0040   2978  		ret
+05B9  1900   2982  		movlw	00h
+05BA  00C7   2983  		movwf	TempReg
+05BB  0849   2985  		movfw	R_I2C_Address
+05BC  2F00   2986  		call	AndroidURLTable
+05BD  00BC   2987  		movwf	WorkReg
+05BE  29FC   2988  		call	StoreReceiveData1
+05BF  0AC9   2989  		incf	R_I2C_Address,F
+05C0  0AC7   2990  		incf	TempReg,F
+05C1  0865   2992  		movfw	AndroidURLEnd				;the lastest URL address
+05C2  0249   2993  		subwf	R_I2C_Address,W
+05C3  1403   2994  		btfsc	Carry
+05C4  0040   2995  		ret
+05C5  1940   2996  		movlw	40h			
+05C6  0247   2997  		subwf	TempReg,W
+05C7  1603   2998  		btfss	Carry
+05C8  35BB   2999  		goto	GetNextAndroid
+05C9  0040   3000  		ret	
+0600  0782   3065  		addwf	Pcl,F
+0601  1800   3067  		retlw	00h
+0602  18E4   3068  		retlw	E4h			
+0603  1800   3069  		retlw	00h		
+0604  1800   3070  		retlw	00h			
+0605  1800   3071  		retlw	00h 
+0606  18E4   3072  		retlw	E4h;E3h			;	check ctrl space
+0607  1800   3073  		retlw	00h
+0608  1800   3074  		retlw	00h
+0609  1800   3075  		retlw	00h
+060A  18E3   3076  		retlw	E3h;E6h			;	check command space
+060B  1800   3077  		retlw	00h
+060C  1800   3078  		retlw	00h									
+060D  1800   3079  		retlw	00h
+060E  18E6   3080  		retlw	E6h	;00h
+060F  1800   3081  		retlw	00h
+0610  1800   3082  		retlw	00h		 	 
+0611  1800   3083  		retlw	00h
+0612  1800   3084  		retlw	00h
+0613  1800   3085  		retlw	00h
+0614  1800   3086  		retlw	00h
+0615  1800   3087  		retlw	00h
+0616  18E1   3088  		retlw	E1h		;	switch to single char country lang
+0617  1800   3089  		retlw	00h
+0618  1800   3090  		retlw	00h
+0619  1800   3091  		retlw	00h
+061A  18E4   3092  		retlw	E4h	;00h	;delay
+061B  1800   3093  		retlw	00h
+061C  1800   3094  		retlw	00h
+061D  1800   3095  		retlw	00h
+061E  1800   3096  		retlw	00h
+061F  1816   3097  		retlw	16h	;	's'
+0620  1800   3098  		retlw	00h
+0621  1800   3099  		retlw	00h
+0622  1800   3100  		retlw	00h;E4h;00h
+0623  1800   3101  		retlw	00h
+0624  1800   3102  		retlw	00h		
+0625  3584   3103  		goto	ChooseLanguageKey    
+0626  1800   3104  		retlw	00h
+0627  1800   3105  		retlw	00h
+0628  1800   3106  		retlw	00h;E4h;00h
+0629  1800   3107  		retlw	00h
+062A  1800   3108  		retlw	00h
+062B  1809   3109  		retlw	09h	;	'f'
+062C  1800   3110  		retlw	00h
+062D  1800   3111  		retlw	00h
+062E  1800   3112  		retlw	00h;E4h;00h
+062F  1800   3113  		retlw	00h
+0630  1800   3114  		retlw	00h
+0631  3584   3115  		goto	ChooseLanguageKey
+0632  1800   3116  		retlw	00h
+0633  1800   3117  		retlw	00h
+0634  1800   3118  		retlw	00h;E4h;00h
+0635  1800   3119  		retlw	00h
+0636  1800   3120  		retlw	00h
+0637  1815   3121  		retlw	15h ;	'r'
+0638  1800   3122  		retlw	00h
+0639  1800   3123  		retlw	00h
+063A  1800   3124  		retlw	00h;E4h;00h
+063B  1800   3125  		retlw	00h
+063C  1800   3126  		retlw	00h
+063D  180C   3127  		retlw	0ch	;	'i'
+063E  1800   3128  		retlw	00h	
+063F  1800   3129  		retlw	00h
+0640  18E4   3130  		retlw	E4h;00h
+0641  1800   3131  		retlw	00h
+0642  1800   3132  		retlw	00h			 
+0643  1800   3133  		retlw	00h;28h	;	enter							
+0644  1800   3134  		retlw	00h
+0645  18E4   3135  		retlw	E4h;00h
+0646  1800   3136  		retlw	00h		
+0647  1800   3137  		retlw	00h
+0648  1800   3138  		retlw	00h
+0649  1800   3139  		retlw	00h		
+064A  1828   3140  		retlw	28h;00h
+064B  1800   3141  		retlw	00h
+064C  1800   3142  		retlw	00h
+064D  1800   3143  		retlw	00h	
+064E  18E4   3144  		retlw	E4h;00h
+064F  1800   3145  		retlw	00h
+0650  1800   3146  		retlw	00h		
+0651  18E5   3157  		retlw	E5h ;	safari bar selection		
+0652  1800   3158  		retlw	00h
+0653  18E5   3159  		retlw	E5h	;	safari bar selection
+0654  1800   3160  		retlw	00h
+0655  1800   3161  		retlw	00h		
+0656  16AB   3273  		btfss	DataInFlag1
+0657  0040   3274  		ret
+0658  14AA   3275  		btfsc	OneFlag
+0659  0040   3276  		ret
+065A  12EA   3277  		bsf	TransFlag
+065B  12AA   3278  		bsf	OneFlag
+065C  152A   3279  		btfsc	PlugFlag
+065D  0040   3280  		ret
+065E  0850   3281  		movfw	ScanNumber
+065F  269D   3282  		call	GetKeyValuePro_WinA
+0660  00D5   3283  		movwf	UsbKeyBuffer2
+0661  19E1   3284  		movlw	E1h
+0662  0655   3285  		xorwf	UsbKeyBuffer2,W
+0663  1683   3286  		btfss	Zero
+0664  3668   3287  		goto	NormalKeyValue1_Win
+0665  26BC   3288  		call	Get_LedState
+0666  0AD0   3289  		incf	ScanNumber,F
+0667  0040   3290  		ret
+0668  19E2   3292  		movlw	E2h					;gui+'R'
+0669  0655   3293  		xorwf	UsbKeyBuffer2,W
+066A  1683   3294  		btfss	Zero
+066B  3672   3295  		goto	NormalKeyValue2_Win
+066C  1908   3296  		movlw	08h
+066D  00D4   3297  		movwf	UsbKeyBuffer0
+066E  1915   3298  		movlw	15h
+066F  00D5   3299  		movwf	UsbKeyBuffer2
+0670  0AD0   3300  		incf	ScanNumber,F
+0671  0040   3301  		ret
+0672  19E3   3303  		movlw	E3h					;shift+end
+0673  0655   3304  		xorwf	UsbKeyBuffer2,W
+0674  1683   3305  		btfss	Zero
+0675  367C   3306  		goto	NormalKeyValue02_Win
+0676  1902   3307  		movlw	02h;08h;
+0677  00D4   3308  		movwf	UsbKeyBuffer0
+0678  194D   3309  		movlw	4dh;00h;
+0679  00D5   3310  		movwf	UsbKeyBuffer2
+067A  0AD0   3311  		incf	ScanNumber,F
+067B  0040   3312  		ret
+067C  19E5   3314  		movlw	E5h
+067D  0655   3315  		xorwf	UsbKeyBuffer2,W
+067E  1683   3316  		btfss	Zero
+067F  3683   3317  		goto	NormalKeyValue03_Win
+0680  26C3   3318  		call	Set_LedState			;detect led status and let NumLock and CapsLock on
+0681  0AD0   3319  		incf	ScanNumber,F
+0682  0040   3320  		ret
+0683  19E6   3322  		movlw	E6h
+0684  0655   3323  		xorwf	UsbKeyBuffer2,W
+0685  1683   3324  		btfss	Zero
+0686  3691   3325  		goto	NormalKeyValue04_Win
+0687  190C   3326  		movlw	0ch
+0688  063D   3327  		xorwf	getstring2counter,W
+0689  1683   3328  		btfss	Zero
+068A  368E   3329  		goto	$+4						;if getstring2counter!=0ch, incf and ret
+068B  1902   3330  		movlw	02h
+068C  027E   3331  		subwf	Setreportcount,W
+068D  1403   3332  		btfsc	Carry
+068E  0AD0   3338  		incf	ScanNumber,F		
+068F  01D5   3339  		clrf	UsbKeyBuffer2			;remember use specific char like 'E6', must be clear value before sent
+0690  0040   3340  		ret		
+0691  01D4   3342  		clrf	UsbKeyBuffer0
+0692  0AD0   3343  		incf	ScanNumber,F
+0693  191E   3344  		movlw	WinWebLength
+0694  0250   3345  		subwf	ScanNumber,W
+0695  1603   3346  		btfss	Carry
+0696  0040   3347  		ret
+0697  01D0   3348  		clrf	ScanNumber
+0698  1025   3349  		bcf	GUIFlag
+0699  106A   3350  		bcf	EndTransFlag
+069A  10AB   3351  		bcf	DataInFlag1
+069B  10AA   3352  		bcf	OneFlag
+069C  0040   3353  		ret
+069D  0782   3358  		addwf	Pcl,F
+069E  1800   3361  		retlw	00h	;ICH6 specific
+069F  1800   3362  		retlw	00h	;checking point
+06A0  1800   3363  		retlw	00h
+06A1  1800   3364  		retlw	00h
+06A2  1800   3365  		retlw	00h
+06A3  1800   3366  		retlw	00h
+06A4  1800   3367  		retlw	00h
+06A5  1800   3368  		retlw	00h
+06A6  1800   3369  		retlw	00h
+06A7  1800   3370  		retlw	00h
+06A8  1800   3371  		retlw	00h
+06A9  18E6   3372  		retlw	E6h	;ICH6 specific
+06AA  1800   3373  		retlw	00h
+06AB  1800   3374  		retlw	00h
+06AC  1800   3375  		retlw	00h	
+06AD  1800   3376  		retlw	00h
+06AE  1800   3377  		retlw	00h
+06AF  18E5   3378  		retlw	E5h	;set leds state
+06B0  1800   3379  		retlw	00h
+06B1  1800   3380  		retlw	00h
+06B2  1800   3381  		retlw	00h	;E3h
+06B3  18E2   3382  		retlw	E2h	;win+r
+06B4  1800   3383  		retlw	00h	;E3h;
+06B5  184A   3384  		retlw	4Ah	;homeE2h;
+06B6  1800   3385  		retlw	00h	;E3h;
+06B7  18E3   3386  		retlw	E3h	;shift+end E2h;
+06B8  1800   3387  		retlw	00h	
+06B9  182A   3388  		retlw	2Ah	;back space
+06BA  1800   3389  		retlw	00h
+06BB  1800   3390  		retlw	00h
+06BC  1900   3399  		movlw	00h
+06BD  00D4   3400  		movwf	UsbKeyBuffer0
+06BE  00D5   3401  		movwf	UsbKeyBuffer2
+06BF  00D7   3402  		movwf	UsbKeyBuffer4
+06C0  1939   3403  		movlw	39h				;CapsLock
+06C1  00D6   3404  		movwf	UsbKeyBuffer3
+06C2  0040   3405  		ret
+06C3  1900   3411  		movlw	00h
+06C4  00D8   3412  		movwf	KeyPress0
+06C5  00D9   3413  		movwf	KeyPress1
+06C6  00DA   3414  		movwf	KeyPress2
+06C7  00D4   3415  		movwf   UsbKeyBuffer0
+06C8  00D5   3416  		movwf   UsbKeyBuffer2
+06C9  00D6   3417  		movwf   UsbKeyBuffer3
+06CA  00D7   3418  		movwf   UsbKeyBuffer4
+06CB  00E9   3419  		movwf	UsbKeyBuffer5
+06CC  083B   3421  		movfw   UsbLedDataTemp
+06CD  1B01   3422  		andlw   01h
+06CE  1683   3423  		btfss	Zero
+06CF  36D3   3424  		goto	LockState2
+06D0  1953   3425  		movlw   53h				;NumLock
+06D1  00D8   3426  		movwf	KeyPress0
+06D2  00D6   3427  		movwf	UsbKeyBuffer3
+06D3  083B   3429  		movfw   UsbLedDataTemp
+06D4  1B02   3430  		andlw   02h
+06D5  1683   3431  		btfss	Zero
+06D6  36DC   3432  		goto	LockState3
+06D7  1939   3433  		movlw   39h				;CapsLock
+06D8  156E   3434  		btfsc AndroidOSFlag		;URL must use with lower case letter in Android
+06D9  1900   3435  		movlw	00h
+06DA  00D9   3436  		movwf	KeyPress1
+06DB  00D7   3437  		movwf	UsbKeyBuffer4
+06DC  083B   3439  		movfw   UsbLedDataTemp
+06DD  1B04   3440  		andlw   04h
+06DE  1483   3441  		btfsc	Zero
+06DF  36E3   3442  		goto	LockState4
+06E0  1947   3443  		movlw   47h				;Scroll Lock
+06E1  00DA   3444  		movwf	KeyPress2
+06E2  00E9   3445  		movwf	UsbKeyBuffer5
+06E3  0040   3447  		ret
+06E4  01D4   3454  		clrf    UsbKeyBuffer0
+06E5  0858   3455  		movfw   KeyPress0
+06E6  00D5   3456  		movwf	UsbKeyBuffer2
+06E7  0859   3461  		movfw	KeyPress1
+06E8  00D6   3462  		movwf	UsbKeyBuffer3
+06E9  085A   3463  		movfw   KeyPress2
+06EA  00D7   3464  		movwf	UsbKeyBuffer4
+06EB  0040   3465       		ret
+06EC  14EA   3488  		btfsc	TransFlag
+06ED  36EF   3489  		goto	SendDataReport
+06EE  0040   3490  		ret
+06EF  15D5   3492    		btfsc	Tx1Rdy
+06F0  0040   3493    		ret
+06F1  1901   3495  		movlw	01h
+06F2  1E58   3496  		movwr	Tx1FifoReg0
+06F3  0854   3498    		movfw	UsbKeyBuffer0
+06F4  1E59   3499    		movwr	Tx1FifoReg1;Tx1FifoReg0
+06F5  0855   3500    		movfw	UsbKeyBuffer2
+06F6  1E5B   3501    		movwr	Tx1FifoReg3;Tx1FifoReg2
+06F7  0856   3502    		movfw	UsbKeyBuffer3
+06F8  1E5C   3503    		movwr	Tx1FifoReg4;Tx1FifoReg3
+06F9  0857   3504    		movfw	UsbKeyBuffer4
+06FA  1E5D   3505    		movwr	Tx1FifoReg5;Tx1FifoReg4
+06FB  1900   3506    		movlw	00h
+06FC  1E5E   3509    		movwr	Tx1FifoReg6
+06FD  1E5F   3510    		movwr	Tx1FifoReg7
+06FE  00D6   3511    		movwf	UsbKeyBuffer3
+06FF  00D7   3512    		movwf	UsbKeyBuffer4
+0700  19F0   3514   		movlw	f0h
+0701  0595   3515   		andwf	Tx1Reg,F
+0702  1908   3516   		movlw	08h
+0703  0495   3517  		iorwf	Tx1Reg,F
+0704  1940   3518  		movlw	40h
+0705  0695   3519  		xorwf	Tx1Reg,F
+0706  13D5   3520  		bsf	Tx1Rdy
+0707  10AA   3524  		bcf	OneFlag
+0708  10EA   3525    		bcf	TransFlag
+0709  15EA   3526    		btfsc	WinRFlag
+070A  3756   3527    		goto	EnterDelay200ms
+070B  142B   3528    		btfsc	EnterFlag
+070C  3756   3529    		goto	EnterDelay200ms
+070D  1928   3531  		movlw	28h
+070E  0655   3532  		xorwf	UsbKeyBuffer2,W
+070F  1683   3533  		btfss	Zero
+0710  3716   3534  		goto	JudgeDelay
+0711  146A   3535  		btfsc	EndTransFlag
+0712  3715   3536  		goto	$+3
+0713  126A   3537  		bsf	EndTransFlag
+0714  374D   3538  		goto	EnterDelay
+0715  1123   3539  		bcf	DataOKFlag
+0716  1908   3541  		movlw	08h
+0717  0654   3542  		xorwf	UsbKeyBuffer0,W
+0718  1683   3543  		btfss	Zero
+0719  372D   3544  		goto	JudgeCtrlF3
+071A  1915   3545  		movlw	15h				;'R'
+071B  0655   3546  		xorwf	UsbKeyBuffer2,W
+071C  1483   3547  		btfsc	Zero
+071D  372A   3548  		goto	DelayPro
+071E  190F   3549  		movlw	0fh				;'L'
+071F  0655   3550  		xorwf	UsbKeyBuffer2,W
+0720  1483   3551  		btfsc	Zero
+0721  372A   3552  		goto	DelayPro
+0722  192B   3553  		movlw	2bh				;'tab'
+0723  0655   3554  		xorwf	UsbKeyBuffer2,W
+0724  1483   3555  		btfsc	Zero
+0725  372A   3556  		goto	DelayPro
+0726  191A   3557  		movlw	1ah				;'W'
+0727  0655   3558  		xorwf	UsbKeyBuffer2,W
+0728  1683   3559  		btfss	Zero
+0729  372D   3560  		goto	JudgeCtrlF3
+072A  13EA   3562  		bsf	WinRFlag
+072B  01BE   3563  		clrf	TimerRollOver
+072C  374A   3564  		goto	NoEnterOrWinL
+072D  1901   3566  		movlw	01h
+072E  0654   3567  		xorwf	UsbKeyBuffer0,W
+072F  1683   3568  		btfss	Zero
+0730  3734   3569  		goto	JudgeCommShiftA
+0731  13EA   3570  		bsf	WinRFlag
+0732  01BE   3571  		clrf	TimerRollOver
+0733  374A   3572  		goto	NoEnterOrWinL
+0734  190A   3574  		movlw	0ah
+0735  0654   3575  		xorwf	UsbKeyBuffer0,W
+0736  1683   3576  		btfss	Zero
+0737  373F   3577  		goto	JudgeEnter
+0738  1904   3578  		movlw	04h
+0739  0655   3579  		xorwf	UsbKeyBuffer2,W
+073A  1683   3580  		btfss	Zero
+073B  373F   3581  		goto	JudgeEnter
+073C  13EA   3582  		bsf	WinRFlag
+073D  01BE   3583  		clrf	TimerRollOver
+073E  374A   3584  		goto	NoEnterOrWinL
+073F  1900   3586  		movlw	00h
+0740  0654   3587  		xorwf	UsbKeyBuffer0,W
+0741  1683   3588  		btfss	Zero
+0742  374A   3589  		goto	NoEnterOrWinL
+0743  19FE   3590  		movlw	FEh
+0744  0555   3591  		andwf	UsbKeyBuffer2,W
+0745  1D28   3592  		xorlw	28h
+0746  1683   3593  		btfss	Zero
+0747  374A   3594  		goto	NoEnterOrWinL
+0748  13EA   3595  		bsf	WinRFlag
+0749  01BE   3596  		clrf	TimerRollOver
+074A  01D4   3598  		clrf	UsbKeyBuffer0
+074B  01D5   3599    		clrf	UsbKeyBuffer2
+074C  0040   3600    		ret
+074D  14A4   3602  		btfsc	OSType
+074E  0040   3603  		ret
+074F  122B   3604  		bsf	EnterFlag
+0750  01BE   3605  		clrf	TimerRollOver
+0751  1902   3606  		movlw	02h
+0752  17E5   3607  		btfss	MacVerFlag
+0753  1900   3608  		movlw	00h
+0754  00F0   3609  		movwf	TimerCountH
+0755  0040   3610  		ret
+0756  132A   3612  		bsf	PlugFlag
+0757  1940   3613  		movlw	40h;f0h
+0758  15EA   3614  		btfsc	WinRFlag
+0759  1920   3615  		movlw	20h;34h
+075A  023E   3616  		subwf	TimerRollOver,W
+075B  1603   3617  		btfss	Carry
+075C  0040   3618  		ret
+075D  08F0   3619  		testz	TimerCountH
+075E  1683   3620  		btfss	Zero
+075F  3764   3621  		goto	$+5
+0760  102B   3622  		bcf	EnterFlag
+0761  11EA   3623  		bcf	WinRFlag
+0762  112A   3624  		bcf	PlugFlag
+0763  0040   3625  		ret
+0764  03F0   3626  		decf	TimerCountH,F
+0765  01BE   3627  		clrf	TimerRollOver
+0766  0040   3628  		ret
+0767  16A4   3636  		btfss	OSType
+0768  37E0   3637  		goto	PrepareDataTask_Mac
+0769  1723   3642  		btfss	DataOKFlag
+076A  0040   3643  		ret						;no key press
+076B  14AA   3644  		btfsc	OneFlag			;if this flag is 1, send alt+key, else send alt only
+076C  0040   3645  		ret
+076D  1902   3647  		movlw	UsbReport
+076E  00DC   3648  		movwf	UsbRequireState
+076F  12AA   3649  		bsf	OneFlag
+0770  156A   3651  		btfsc	WinTransAscII
+0771  37CE   3652  		goto	PrepareData_Ascii
+0772  15AA   3653  		btfsc	RestorLedsFlag
+0773  37DB   3654  		goto	PrepareData_Leds
+0774  08D3   3656  		testz	ReadURLTime
+0775  1683   3657  		btfss	Zero
+0776  2814   3658  		call	ReceiveNtimeData	;receive 64 data (URL)
+0777  1940   3660  		movlw	ReadBuffer
+0778  0084   3661       		movwf	Fsr
+0779  0852   3662       		movfw	EndMaxURL40h
+077A  0784   3664       		addwf	Fsr,F
+077B  1343   3665       		bsf	RamBank
+077C  0800   3666       		movfw	Indf
+077D  1143   3667       		bcf	RamBank
+077E  00BC   3668       		movwf	WorkReg
+077F  0AD2   3669       		incf	EndMaxURL40h,F		;transmit 64 times data
+0780  1901   3671       		movlw	01h
+0781  07D1   3672  		addwf	TempCount,F
+0782  083C   3675       		movfw	WorkReg
+0783  00DD   3676       		movwf	WorkRegTemp
+0784  00D5   3677       		movwf	UsbKeyBuffer2
+0785  1900   3679  		movlw	00h
+0786  00DE   3680  		movwf	AsciiMSC
+0787  00DF   3681  		movwf	AsciiMID
+0788  00E0   3682  		movwf	AsciiLSC
+0789  1902   3684  		movlw	02h
+078A  00DE   3685  		movwf	AsciiMSC
+078B  19C8   3686  		movlw	200d
+078C  025D   3687  		subwf	WorkRegTemp,W
+078D  00BC   3688  		movwf	WorkReg
+078E  1403   3689  		btfsc	Carry
+078F  379B   3690  		goto	NormalKeyValue_Win
+0790  1901   3691  		movlw	01h
+0791  00DE   3692  		movwf	AsciiMSC
+0792  1964   3693  		movlw	100d
+0793  025D   3694  		subwf	WorkRegTemp,W
+0794  00BC   3695  		movwf	WorkReg
+0795  1403   3696  		btfsc	Carry
+0796  379B   3697  		goto	NormalKeyValue_Win
+0797  085D   3698  		movfw	WorkRegTemp
+0798  00BC   3699  		movwf	WorkReg
+0799  1900   3700  		movlw	00h
+079A  00DE   3701  		movwf	AsciiMSC
+079B  083C   3704  		movfw	WorkReg
+079C  2980   3705  		call	HexToDecTable
+079D  00DD   3706  		movwf	WorkRegTemp
+079E  190F   3707  		movlw	0fh
+079F  055D   3708  		andwf	WorkRegTemp,W
+07A0  00E0   3709  		movwf	AsciiLSC
+07A1  0EDD   3710  		swapf	WorkRegTemp,F
+07A2  190F   3711  		movlw	0fh
+07A3  055D   3712  		andwf	WorkRegTemp,W
+07A4  00DF   3713  		movwf	AsciiMID
+07A5  085E   3715  		movfw	AsciiMSC
+07A6  27C3   3716  		call	KeypadTable
+07A7  00DE   3717  		movwf	AsciiMSC
+07A8  085F   3718  		movfw	AsciiMID
+07A9  27C3   3719  		call	KeypadTable
+07AA  00DF   3720  		movwf	AsciiMID
+07AB  0860   3721  		movfw	AsciiLSC
+07AC  27C3   3722  		call	KeypadTable
+07AD  00E0   3723  		movwf	AsciiLSC
+07AE  1904   3725  		movlw	04h
+07AF  00D4   3726  		movwf	UsbKeyBuffer0
+07B0  1901   3727  		movlw	01h
+07B1  00D0   3728  		movwf	ScanNumber
+07B2  136A   3729  		bsf	WinTransAscII
+07B3  087B   3735  		movfw	URLAddressLen
+07B4  172C   3736  		btfss	urladd1forenter
+07B5  00F6   3737  		movwf	URLLenTemp
+07B6  132C   3738  		bsf		urladd1forenter
+07B7  03F6   3739  		decf	URLLenTemp,F
+07B8  1483   3741  		btfsc	Zero
+07B9  37BD   3742  		goto	TransmitENTERData_Win
+07BA  085E   3743  		movfw	AsciiMSC		;send MSC of the transfered data
+07BB  00D5   3744  		movwf	UsbKeyBuffer2
+07BC  0040   3745  		ret
+07BD  1900   3769  		movlw	00h
+07BE  00D4   3770  		movwf	UsbKeyBuffer0
+07BF  1928   3771  		movlw	28h
+07C0  00D5   3772  		movwf	UsbKeyBuffer2
+07C1  116A   3773  		bcf	WinTransAscII
+07C2  0040   3774  		ret
+07C3  0782   3777  		addwf	Pcl,F
+07C4  1862   3778  		retlw	62h
+07C5  1859   3779  		retlw	59h
+07C6  185A   3780  		retlw	5ah
+07C7  185B   3781  		retlw	5bh
+07C8  185C   3782  		retlw	5ch
+07C9  185D   3783  		retlw	5dh
+07CA  185E   3784  		retlw	5eh
+07CB  185F   3785  		retlw	5fh
+07CC  1860   3786  		retlw	60h
+07CD  1861   3787  		retlw	61h
+07CE  1904   3789  		movlw	04h			
+07CF  00D4   3790  		movwf	UsbKeyBuffer0
+07D0  0AD0   3791  		incf	ScanNumber,F
+07D1  085F   3792  		movfw	AsciiMID		;send MID of the transfered data
+07D2  00D5   3793  		movwf	UsbKeyBuffer2
+07D3  1902   3794  		movlw	02h
+07D4  0650   3795  		xorwf	ScanNumber,W
+07D5  1483   3796  		btfsc	Zero
+07D6  0040   3797  		ret
+07D7  116A   3798  		bcf	WinTransAscII
+07D8  0860   3800  		movfw	AsciiLSC		;send LSC of the transfered data
+07D9  00D5   3801  		movwf	UsbKeyBuffer2
+07DA  0040   3802  		ret
+07DB  106A   3804  		bcf	EndTransFlag
+07DC  11AA   3805  		bcf	RestorLedsFlag
+07DD  26E4   3806  		call	Restore_LedState
+07DE  1123   3807  		bcf	DataOKFlag
+07DF  0040   3808  		ret
+07E0  15EA   3811  		btfsc	WinRFlag
+07E1  0040   3812  		ret
+07E2  1723   3813  		btfss	DataOKFlag
+07E3  0040   3814  		ret				;no key press
+07E4  14AA   3815  		btfsc	OneFlag
+07E5  0040   3816  		ret
+07E6  1902   3818  		movlw	UsbReport
+07E7  00DC   3819  		movwf	UsbRequireState
+07E8  12AA   3820  		bsf	OneFlag
+07E9  08D3   3822  		testz	ReadURLTime
+07EA  1683   3823  		btfss	Zero
+07EB  2814   3824  		call	ReceiveNtimeData	;receive 64 data from 24C02
+07EC  1940   3827  		movlw	ReadBuffer
+07ED  0084   3828       		movwf	Fsr
+07EE  0852   3829       		movfw	EndMaxURL40h
+07EF  0784   3832       		addwf	Fsr,F
+07F0  1343   3833       		bsf	RamBank
+07F1  0800   3834       		movfw	Indf
+07F2  1143   3835       		bcf	RamBank
+07F3  00BC   3836       		movwf	WorkReg
+07F4  00D4   3837  			movwf	UsbKeyBuffer0
+07F5  0AD2   3838       		incf	EndMaxURL40h,F		;transmit 64 times data
+07F6  1940   3840  		movlw	ReadBuffer
+07F7  0084   3841       		movwf	Fsr
+07F8  0852   3842       		movfw	EndMaxURL40h
+07F9  0784   3844       		addwf	Fsr,F
+07FA  1343   3845       		bsf	RamBank
+07FB  0800   3846       		movfw	Indf
+07FC  1143   3847       		bcf	RamBank
+07FD  00BC   3848       		movwf	WorkReg
+07FE  00D5   3849  			movwf	UsbKeyBuffer2
+07FF  0AD2   3850       		incf	EndMaxURL40h,F		;transmit 64 times data
+0800  2587   3852  		call	WaitSendNextURL
+0801  15EE   3853  		btfsc	SendKeyNotYetFlag
+0802  0040   3854  		ret
+0803  11EE   3855  		bcf		SendKeyNotYetFlag	
+0804  087D   3887  		movfw	MacURLAddressLen
+0805  156E   3888  			btfsc	AndroidOSFlag		;if OS is android
+0806  084F   3889  			movfw	AndroidURLLength
+0807  172C   3890  		btfss	urladd1forenter
+0808  00F6   3891  		movwf	URLLenTemp
+0809  132C   3892  		bsf		urladd1forenter
+080A  03F6   3893  		decf	URLLenTemp,F
+080B  03F6   3894  		decf	URLLenTemp,F
+080C  1483   3895  		btfsc	Zero
+080D  380F   3896  		goto	TransmitENTERData
+080E  0040   3897  		ret
+080F  1900   3916  		movlw	00h
+0810  00D4   3917  		movwf	UsbKeyBuffer0
+0811  1928   3918  		movlw	28h
+0812  00D5   3919  		movwf	UsbKeyBuffer2
+0813  0040   3920  		ret
+0814  1901   3924  		movlw	01h
+0815  066E   3925  		xorwf	ReadI2CAddressH,W
+0816  1483   3926  		btfsc	Zero
+0817  3820   3927  		goto	Each64Loop;$+9;$+7
+0818  087A   3928  		movfw	URLAddressIndex		;basically, beside first get 64 bytes data, every loop should not entry this branch
+0819  16A4   3929  		btfss	OSType
+081A  087C   3930  		movfw	MacURLAddressIndex
+081B  156E   3931  			btfsc	AndroidOSFlag	;if OS is android
+081C  084E   3932  			movfw	AndroidURLIndex
+081D  0649   3933  		xorwf	R_I2C_Address,W
+081E  1483   3934  		btfsc	Zero
+081F  3826   3935  		goto	ActualGet64;$+7
+0820  1940   3937  		movlw	40h					;check 64 bytes/each read loop
+0821  0652   3938  		xorwf	EndMaxURL40h,W
+0822  1683   3939  		btfss	Zero
+0823  0040   3940  		ret
+0824  01D2   3943  		clrf	EndMaxURL40h		;every 64 bytes, clear it for next 64bytes
+0825  03D3   3944  		decf	ReadURLTime,F
+0826  156E   3957  		btfsc	AndroidOSFlag	;if OS is android
+0827  382A   3958  		goto	 $+3
+0828  29E5   3959  		call	Get64ByteInfo
+0829  382B   3960  		goto	 $+2
+082A  25B9   3961  		call 	GetAndroid64URL
+082B  0040   3963  		ret
+082C  01E1   3966  		clrf	Judge_Capital		;small letter flag
+082D  1941   3967  		movlw	41h
+082E  023C   3968  		subwf	WorkReg,W
+082F  1603   3969  		btfss	Carry
+0830  0040   3970  		ret
+0831  195B   3972  		movlw	05ah+1
+0832  023C   3973  		subwf	WorkReg,W
+0833  1403   3974  		btfsc	Carry
+0834  0040   3975  		ret
+0835  1901   3977  		movlw	01h			;[41h~5ah] is capital
+0836  00E1   3978  		movwf	Judge_Capital		;capital flag,must press SHIFT key
+0837  0040   3979  		ret
+0838  08E1   3982  		testz	Judge_Capital
+0839  1683   3983  		btfss	Zero
+083A  0040   3984  		ret
+083B  197E   3986       		movlw	7eh			;'~'
+083C  063C   3987       		xorwf	WorkReg,W
+083D  1483   3988       		btfsc	Zero
+083E  3890   3989  		goto	PressShiftKey
+083F  1921   3991       		movlw	21h			;'!'
+0840  063C   3992       		xorwf	WorkReg,W
+0841  1483   3993       		btfsc	Zero
+0842  3890   3994  		goto	PressShiftKey
+0843  1940   3996       		movlw	40h			;'@'
+0844  063C   3997       		xorwf	WorkReg,W
+0845  1483   3998       		btfsc	Zero
+0846  3890   3999  		goto	PressShiftKey
+0847  1923   4001  		movlw	23h			;'#'
+0848  063C   4002       		xorwf	WorkReg,W
+0849  1483   4003       		btfsc	Zero
+084A  3890   4004  		goto	PressShiftKey
+084B  1924   4006  		movlw	24h			;'$'
+084C  063C   4007       		xorwf	WorkReg,W
+084D  1483   4008       		btfsc	Zero
+084E  3890   4009  		goto	PressShiftKey
+084F  1925   4011  		movlw	25h			;'%'
+0850  063C   4012       		xorwf	WorkReg,W
+0851  1483   4013       		btfsc	Zero
+0852  3890   4014  		goto	PressShiftKey
+0853  195E   4016       		movlw	5eh			;'^'
+0854  063C   4017       		xorwf	WorkReg,W
+0855  1483   4018       		btfsc	Zero
+0856  3890   4019  		goto	PressShiftKey
+0857  1926   4021       		movlw	26h			;'&'
+0858  063C   4022       		xorwf	WorkReg,W
+0859  1483   4023       		btfsc	Zero
+085A  3890   4024  		goto	PressShiftKey
+085B  192A   4026  		movlw	2ah			;'*'
+085C  063C   4027       		xorwf	WorkReg,W
+085D  1483   4028       		btfsc	Zero
+085E  3890   4029  		goto	PressShiftKey
+085F  1928   4031  		movlw	28h			;'('
+0860  063C   4032       		xorwf	WorkReg,W
+0861  1483   4033       		btfsc	Zero
+0862  3890   4034  		goto	PressShiftKey
+0863  1929   4036  		movlw	29h			;')'
+0864  063C   4037       		xorwf	WorkReg,W
+0865  1483   4038       		btfsc	Zero
+0866  3890   4039  		goto	PressShiftKey
+0867  195F   4041       		movlw	5fh			;'_'
+0868  063C   4042       		xorwf	WorkReg,W
+0869  1483   4043       		btfsc	Zero
+086A  3890   4044  		goto	PressShiftKey
+086B  192B   4046       		movlw	2bh			;'+'
+086C  063C   4047       		xorwf	WorkReg,W
+086D  1483   4048       		btfsc	Zero
+086E  3890   4049  		goto	PressShiftKey
+086F  197B   4051  		movlw	7bh			;'{'
+0870  063C   4052       		xorwf	WorkReg,W
+0871  1483   4053       		btfsc	Zero
+0872  3890   4054  		goto	PressShiftKey
+0873  197D   4056  		movlw	7dh			;'}'
+0874  063C   4057       		xorwf	WorkReg,W
+0875  1483   4058       		btfsc	Zero
+0876  3890   4059  		goto	PressShiftKey
+0877  193A   4061  		movlw	3ah			;':'
+0878  063C   4062       		xorwf	WorkReg,W
+0879  1483   4063       		btfsc	Zero
+087A  3890   4064  		goto	PressShiftKey
+087B  1922   4066       		movlw	22h			;'"'
+087C  063C   4067       		xorwf	WorkReg,W
+087D  1483   4068       		btfsc	Zero
+087E  3890   4069  		goto	PressShiftKey
+087F  193C   4071       		movlw	3ch			;'<'
+0880  063C   4072       		xorwf	WorkReg,W
+0881  1483   4073       		btfsc	Zero
+0882  3890   4074  		goto	PressShiftKey
+0883  193E   4076  		movlw	3eh			;'>'
+0884  063C   4077       		xorwf	WorkReg,W
+0885  1483   4078       		btfsc	Zero
+0886  3890   4079  		goto	PressShiftKey
+0887  193F   4081  		movlw	3fh			;'?'
+0888  063C   4082       		xorwf	WorkReg,W
+0889  1483   4083       		btfsc	Zero
+088A  3890   4084  		goto	PressShiftKey
+088B  197C   4086  		movlw	7ch			;'|'
+088C  063C   4087       		xorwf	WorkReg,W
+088D  1483   4088       		btfsc	Zero
+088E  3890   4089  		goto	PressShiftKey
+088F  0040   4090  		ret
+0890  1901   4093  		movlw	01h
+0891  00E1   4094  		movwf	Judge_Capital
+0892  0040   4095  		ret
+0893  1900   4101  		movlw	UsbNoReport				;send alt only or send clear txfifo
+0894  025C   4102  		subwf	UsbRequireState,W
+0895  1483   4103  		btfsc	Zero
+0896  389C   4104  		goto	SendstoppacketNow
+0897  1902   4106  		movlw	UsbReport				;send alt+key
+0898  025C   4107  		subwf	UsbRequireState,W		
+0899  1483   4108  		btfsc	Zero
+089A  38B0   4109  		goto	SendpacketNow
+089B  0040   4110  		ret
+089C  166B   4112  		btfss	BreakFlag
+089D  0040   4113  		ret
+089E  15D5   4115  		btfsc	Tx1Rdy			;is ready to prepare to send packet?
+089F  0040   4116  		ret
+08A0  1901   4118  		movlw	01h				;report id(1)
+08A1  1E58   4119  		movwr	Tx1FifoReg0
+08A2  1900   4121  		movlw	00h
+08A3  156A   4122  		btfsc	WinTransAscII		
+08A4  1904   4123  		movlw	04h	
+08A5  1E59   4124  		movwr	Tx1FifoReg1;Tx1FifoReg0		
+08A6  1900   4125  		movlw	00h
+08A7  1E5A   4127  		movwr	Tx1FifoReg2
+08A8  1E5B   4128  		movwr	Tx1FifoReg3
+08A9  1E5C   4129  		movwr	Tx1FifoReg4
+08AA  1E5D   4130  		movwr	Tx1FifoReg5
+08AB  1E5E   4131  		movwr	Tx1FifoReg6
+08AC  1E5F   4132  		movwr	Tx1FifoReg7
+08AD  106B   4133  		bcf	BreakFlag
+08AE  10AA   4134  		bcf	OneFlag
+08AF  38C0   4135  		goto	SendReportNow
+08B0  15D5   4137  		btfsc	Tx1Rdy			;is ready to prepare to send packet?
+08B1  0040   4138  		ret
+08B2  1901   4140  		movlw	01h
+08B3  1E58   4141  		movwr	Tx1FifoReg0
+08B4  0854   4143    		movfw	UsbKeyBuffer0
+08B5  1E59   4144   		movwr	Tx1FifoReg1;Tx1FifoReg0
+08B6  0855   4145    		movfw	UsbKeyBuffer2
+08B7  1E5B   4146    		movwr	Tx1FifoReg3;Tx1FifoReg2
+08B8  0856   4147    		movfw	UsbKeyBuffer3
+08B9  1E5C   4148    		movwr	Tx1FifoReg4;Tx1FifoReg3
+08BA  0857   4149    		movfw	UsbKeyBuffer4
+08BB  1E5D   4150    		movwr	Tx1FifoReg5;Tx1FifoReg4
+08BC  1900   4151    		movlw	00h
+08BD  00D6   4156    		movwf	UsbKeyBuffer3
+08BE  00D7   4157    		movwf	UsbKeyBuffer4
+08BF  126B   4158    		bsf	BreakFlag			;set 1 for send alt only between twice alt+key
+08C0  19F0   4161  		movlw	f0h
+08C1  0595   4162  		andwf	Tx1Reg,F
+08C2  1908   4163  		movlw	08h
+08C3  0495   4164  		iorwf	Tx1Reg,F		;Endpoint1 transmit 8 byte
+08C4  1940   4165  		movlw	40h
+08C5  0695   4166  		xorwf	Tx1Reg,F
+08C6  13D5   4167  		bsf	Tx1Rdy
+08C7  1900   4171  		movlw	UsbNoReport
+08C8  00DC   4174  		movwf	UsbRequireState
+08C9  166A   4176  		btfss	EndTransFlag
+08CA  38D0   4177  		goto	$+6
+08CB  16A4   4178  		btfss	OSType
+08CC  38CF   4179  		goto	$+3
+08CD  13AA   4180  		bsf	RestorLedsFlag
+08CE  38D0   4181  		goto	$+2
+08CF  1123   4182  		bcf	DataOKFlag
+08D0  1928   4184  		movlw	28h
+08D1  0655   4185  		xorwf	UsbKeyBuffer2,W
+08D2  1683   4186  		btfss	Zero
+08D3  38E0   4187  		goto	clrbuff;$+7
+08D4  126A   4189  		bsf	EndTransFlag
+08D5  2AF0   4190  		call DelaySendKeyRoutine	;wait enter transfer out
+08D6  14A4   4191  		btfsc OSType
+08D7  38E0   4192  		goto clrbuff;$+4
+08D8  106F   4194  		bcf AndroidURLDoneFlag
+08D9  176E   4195  		btfss	AndroidOSFlag
+08DA  38DD   4196  		goto $+3	
+08DB  126F   4197  		bsf AndroidURLDoneFlag
+08DC  38E0   4198  		goto clrbuff	;ready to send third key
+08DD  10D3   4201  		bcf	DeviceR
+08DE  1E03   4202  		sleep
+08DF  38DE   4203  		goto $-1
+08E0  01D4   4205  	  	clrf	UsbKeyBuffer0
+08E1  01D5   4206  		clrf	UsbKeyBuffer2
+08E2  0040   4207  		ret
+0900  0782   4217  		addwf	Pcl,F
+0901  1800   4218  		retlw	00h	; //" " 000	NUL    (Null char.)
+0902  1800   4219  		retlw	00h	; //" " 001        SOH    (. of Header)
+0903  1800   4220  		retlw	00h	; //" " 002        STX    (Start of Text)
+0904  1800   4221  		retlw	00h	; //" " 003        ETX    (End of Text)
+0905  1800   4222  		retlw	00h	; //" " 004        EOT    (End of Transmission)
+0906  1800   4223  		retlw	00h	; //" " 005        ENQ    (Enquiry)
+0907  1800   4224  		retlw	00h	; //" " 006        ACK    (Acknowledgment)
+0908  1800   4225  		retlw	00h	; //" " 007        BEL    (Bell)
+0909  1800   4226  		retlw	00h	; //" " 008         BS    (Backspace)
+090A  1800   4227  		retlw	00h	; //" " 009         HT    (Horizontal Tab)
+090B  1800   4228  		retlw	00h	; //" " 00A         LF    (Line Feed)
+090C  1800   4229  		retlw	00h	; //" " 00B         VT    (Vertical Tab)
+090D  1800   4230  		retlw	00h	; //" " 00C         FF    (Form Feed)
+090E  1800   4231  		retlw	00h	; //" " 00D         CR    (Carriage Return)
+090F  1800   4232  		retlw	00h	; //" " 00E         SO    (Shift Out)
+0910  1800   4233  		retlw	00h	; //" " 00F         SI    (Shift In)
+0911  1800   4234  		retlw	00h	; //" " 010	DLE    (Data Link Escape)
+0912  1800   4235  		retlw	00h	; //" " 011        DC1 (XON) (Device Control 1)
+0913  1800   4236  		retlw	00h	; //" " 012        DC2       (Device Control 2)
+0914  1800   4237  		retlw	00h	; //" " 013        DC3 (XOFF)(Device Control 3)
+0915  1800   4238  		retlw	00h	; //" " 014        DC4       (Device Control 4)
+0916  1800   4239  		retlw	00h	; //" " 015        NAK    (Negative Acknowledgement)
+0917  1800   4240  		retlw	00h	; //" " 016        SYN    (Synchronous Idle)
+0918  1800   4241  		retlw	00h	; //" " 017        ETB    (End of Trans. Block)
+0919  1800   4242  		retlw	00h	; //" " 018        CAN    (Cancel)
+091A  1800   4243  		retlw	00h	; //" " 019         EM    (End of Medium)
+091B  1800   4244  		retlw	00h	; //" " 01A        SUB    (Substitute)
+091C  1800   4245  		retlw	00h	; //" " 01B        ESC    (Escape)
+091D  1800   4246  		retlw	00h	; //" " 01C         FS    (File Separator)
+091E  1800   4247  		retlw	00h	; //" " 01D         GS    (Group Separator)
+091F  1800   4248  		retlw	00h	; //" " 01E         RS    (Request to Send)(Record Separator)
+0920  1800   4249  		retlw	00h	; //" " 01F         US    (Unit Separator)
+0921  182C   4250  		retlw	2ch	; //" " 020
+0922  181E   4251  		retlw	1eh	; //"!" 021
+0923  1834   4252  		retlw	34h	; //""" 022
+0924  1820   4253  		retlw	20h	; //"#" 023
+0925  1821   4254  		retlw	21h	; //"$" 024
+0926  1822   4255  		retlw	22h	; //"%" 025
+0927  1824   4256  		retlw	24h	; //"&" 026
+0928  1834   4257  		retlw	34h	; //"'" 027
+0929  1826   4258  		retlw	26h	; //"(" 028
+092A  1827   4259  		retlw	27h	; //")" 029
+092B  1825   4260  		retlw	25h	; //"*" 02A
+092C  182E   4261  		retlw	2eh	; //"+" 02B
+092D  1836   4262  		retlw	36h	; //"," 02C
+092E  182D   4263  		retlw	2dh	; //"-" 02D
+092F  1837   4264  		retlw	37h	; //"." 02E
+0930  1838   4265  		retlw	38h	; //"/" 02F
+0931  1827   4266  		retlw	27h	; //"0" 030
+0932  181E   4267  		retlw	1eh	; //"1" 031
+0933  181F   4268  		retlw	1fh	; //"2" 032
+0934  1820   4269  		retlw	20h	; //"3" 033
+0935  1821   4270  		retlw	21h	; //"4" 034
+0936  1822   4271  		retlw	22h	; //"5" 035
+0937  1823   4272  		retlw	23h	; //"6" 036
+0938  1824   4273  		retlw	24h	; //"7" 037
+0939  1825   4274  		retlw	25h	; //"8" 038
+093A  1826   4275  		retlw	26h	; //"9" 039
+093B  1833   4276  		retlw	33h	; //":" 03A
+093C  1833   4277  		retlw	33h	; //";" 03B
+093D  1836   4278  		retlw	36h	; //"<" 03C
+093E  182E   4279  		retlw	2eh	; //"=" 03D
+093F  1837   4280  		retlw	37h	; //">" 03E
+0940  1838   4281  		retlw	38h	; //"?" 03F
+0941  181F   4282  		retlw	1fh	; //"@" 040
+0942  1804   4283  		retlw	04h	; //"A" 041
+0943  1805   4284  		retlw	05h	; //"B" 042
+0944  1806   4285  		retlw	06h	; //"C" 043
+0945  1807   4286  		retlw	07h	; //"D" 044
+0946  1808   4287  		retlw	08h	; //"E" 045
+0947  1809   4288  		retlw	09h	; //"F" 046
+0948  180A   4289  		retlw	0ah	; //"G" 047
+0949  180B   4290  		retlw	0bh	; //"H" 048
+094A  180C   4291  		retlw	0ch	; //"I" 049
+094B  180D   4292  		retlw	0dh	; //"J" 04A
+094C  180E   4293  		retlw	0eh	; //"K" 04B
+094D  180F   4294  		retlw	0fh	; //"L" 04C
+094E  1810   4295  		retlw	10h	; //"M" 04D
+094F  1811   4296  		retlw	11h	; //"N" 04E
+0950  1812   4297  		retlw	12h	; //"O" 04F
+0951  1813   4298  		retlw	13h	; //"P" 050
+0952  1814   4299  		retlw	14h	; //"Q" 051
+0953  1815   4300  		retlw	15h	; //"R" 052
+0954  1816   4301  		retlw	16h	; //"S" 053
+0955  1817   4302  		retlw	17h	; //"T" 054
+0956  1818   4303  		retlw	18h	; //"U" 055
+0957  1819   4304  		retlw	19h	; //"V" 056
+0958  181A   4305  		retlw	1ah	; //"W" 057
+0959  181B   4306  		retlw	1bh	; //"X" 058
+095A  181C   4307  		retlw	1ch	; //"Y" 059
+095B  181D   4308  		retlw	1dh	; //"Z" 05A
+095C  182F   4309  		retlw	2fh	; //"[" 05B
+095D  1831   4310  		retlw	31h	; //"\" 05C
+095E  1830   4311  		retlw	30h	; //"]" 05D
+095F  1823   4312  		retlw	23h	; //"^" 05E
+0960  182D   4313  		retlw	2dh	; //"_" 05F
+0961  1835   4314  		retlw	35h	;32h	; //"'" 060
+0962  1804   4315  		retlw	04h	; //"a" 061
+0963  1805   4316  		retlw	05h	; //"b" 062
+0964  1806   4317  		retlw	06h	; //"c" 063
+0965  1807   4318  		retlw	07h	; //"d" 064
+0966  1808   4319  		retlw	08h	; //"e" 065
+0967  1809   4320  		retlw	09h	; //"f" 066
+0968  180A   4321  		retlw	0ah	; //"g" 067
+0969  180B   4322  		retlw	0bh	; //"h" 068
+096A  180C   4323  		retlw	0ch	; //"i" 069
+096B  180D   4324  		retlw	0dh	; //"j" 06A
+096C  180E   4325  		retlw	0eh	; //"k" 06B
+096D  180F   4326  		retlw	0fh	; //"l" 06C
+096E  1810   4327  		retlw	10h	; //"m" 06D
+096F  1811   4328  		retlw	11h	; //"n" 06E
+0970  1812   4329  		retlw	12h	; //"o" 06F
+0971  1813   4330  		retlw	13h	; //"p" 070
+0972  1814   4331  		retlw	14h	; //"q" 071
+0973  1815   4332  		retlw	15h	; //"r" 072
+0974  1816   4333  		retlw	16h	; //"s" 073
+0975  1817   4334  		retlw	17h	; //"t" 074
+0976  1818   4335  		retlw	18h	; //"u" 075
+0977  1819   4336  		retlw	19h	; //"v" 076
+0978  181A   4337  		retlw	1ah	; //"w" 077
+0979  181B   4338  		retlw	1bh	; //"x" 078
+097A  181C   4339  		retlw	1ch	; //"y" 079
+097B  181D   4340  		retlw	1dh	; //"z" 07A
+097C  182F   4341  		retlw	2fh	; //"{" 07B
+097D  1831   4342  		retlw	31h	; //"|" 07C
+097E  1830   4343  		retlw	30h	; //"}" 07D
+097F  1835   4344  		retlw	35h	;32h	; //"~" 07E
+0980  0782   4372  	addwf	Pcl,F
+0981  1800   4373  	retlw	00h
+0982  1801   4374  	retlw	01h
+0983  1802   4375  	retlw	02h
+0984  1803   4376  	retlw	03h
+0985  1804   4377  	retlw	04h
+0986  1805   4378  	retlw	05h
+0987  1806   4379  	retlw	06h
+0988  1807   4380  	retlw	07h
+0989  1808   4381  	retlw	08h
+098A  1809   4382  	retlw	09h
+098B  1810   4383  	retlw	10h
+098C  1811   4384  	retlw	11h
+098D  1812   4385  	retlw	12h
+098E  1813   4386  	retlw	13h
+098F  1814   4387  	retlw	14h
+0990  1815   4388  	retlw	15h
+0991  1816   4389  	retlw	16h
+0992  1817   4390  	retlw	17h
+0993  1818   4391  	retlw	18h
+0994  1819   4392  	retlw	19h
+0995  1820   4393  	retlw	20h
+0996  1821   4394  	retlw	21h
+0997  1822   4395  	retlw	22h
+0998  1823   4396  	retlw	23h
+0999  1824   4397  	retlw	24h
+099A  1825   4398  	retlw	25h
+099B  1826   4399  	retlw	26h
+099C  1827   4400  	retlw	27h
+099D  1828   4401  	retlw	28h
+099E  1829   4402  	retlw	29h
+099F  1830   4403  	retlw	30h
+09A0  1831   4404  	retlw	31h
+09A1  1832   4405  	retlw	32h
+09A2  1833   4406  	retlw	33h
+09A3  1834   4407  	retlw	34h
+09A4  1835   4408  	retlw	35h
+09A5  1836   4409  	retlw	36h
+09A6  1837   4410  	retlw	37h
+09A7  1838   4411  	retlw	38h
+09A8  1839   4412  	retlw	39h
+09A9  1840   4413  	retlw	40h
+09AA  1841   4414  	retlw	41h
+09AB  1842   4415  	retlw	42h
+09AC  1843   4416  	retlw	43h
+09AD  1844   4417  	retlw	44h
+09AE  1845   4418  	retlw	45h
+09AF  1846   4419  	retlw	46h
+09B0  1847   4420  	retlw	47h
+09B1  1848   4421  	retlw	48h
+09B2  1849   4422  	retlw	49h
+09B3  1850   4423  	retlw	50h
+09B4  1851   4424  	retlw	51h
+09B5  1852   4425  	retlw	52h
+09B6  1853   4426  	retlw	53h
+09B7  1854   4427  	retlw	54h
+09B8  1855   4428  	retlw	55h
+09B9  1856   4429  	retlw	56h
+09BA  1857   4430  	retlw	57h
+09BB  1858   4431  	retlw	58h
+09BC  1859   4432  	retlw	59h
+09BD  1860   4433  	retlw	60h
+09BE  1861   4434  	retlw	61h
+09BF  1862   4435  	retlw	62h
+09C0  1863   4436  	retlw	63h
+09C1  1864   4437  	retlw	64h
+09C2  1865   4438  	retlw	65h
+09C3  1866   4439  	retlw	66h
+09C4  1867   4440  	retlw	67h
+09C5  1868   4441  	retlw	68h
+09C6  1869   4442  	retlw	69h
+09C7  1870   4443  	retlw	70h
+09C8  1871   4444  	retlw	71h
+09C9  1872   4445  	retlw	72h
+09CA  1873   4446  	retlw	73h
+09CB  1874   4447  	retlw	74h
+09CC  1875   4448  	retlw	75h
+09CD  1876   4449  	retlw	76h
+09CE  1877   4450  	retlw	77h
+09CF  1878   4451  	retlw	78h
+09D0  1879   4452  	retlw	79h
+09D1  1880   4453  	retlw	80h
+09D2  1881   4454  	retlw	81h
+09D3  1882   4455  	retlw	82h
+09D4  1883   4456  	retlw	83h
+09D5  1884   4457  	retlw	84h
+09D6  1885   4458  	retlw	85h
+09D7  1886   4459  	retlw	86h
+09D8  1887   4460  	retlw	87h
+09D9  1888   4461  	retlw	88h
+09DA  1889   4462  	retlw	89h
+09DB  1890   4463  	retlw	90h
+09DC  1891   4464  	retlw	91h
+09DD  1892   4465  	retlw	92h
+09DE  1893   4466  	retlw	93h
+09DF  1894   4467  	retlw	94h
+09E0  1895   4468  	retlw	95h
+09E1  1896   4469  	retlw	96h
+09E2  1897   4470  	retlw	97h
+09E3  1898   4471  	retlw	98h
+09E4  1899   4472  	retlw	99h
+09E5  1900   4476  		movlw	00h
+09E6  00C7   4477  		movwf	TempReg
+09E7  0849   4479  		movfw	R_I2C_Address			
+09E8  14A4   4482  		btfsc	OSType	
+09E9  39EC   4483  		goto	 $+3
+09EA  2E00   4484  		call	MACURLTable;DeviceInfoTable
+09EB  39ED   4485  		goto	 $+2
+09EC  2D78   4486  		call 	WindowsURLTable		
+09ED  00BC   4488  		movwf	WorkReg
+09EE  29FC   4489  		call	StoreReceiveData1
+09EF  0AC9   4490  		incf	R_I2C_Address,F
+09F0  0AC7   4491  		incf	TempReg,F
+09F1  0848   4492  		movfw	WindowsURLEnd;MacURLAddressIndex
+09F2  16A4   4493  		btfss	OSType
+09F3  0875   4494  		movfw	MACURLEnd;SecurityKeyIndex				;the lastest URL address
+09F4  0249   4495  		subwf	R_I2C_Address,W
+09F5  1403   4496  		btfsc	Carry
+09F6  0040   4497  		ret
+09F7  1940   4501  		movlw	40h
+09F8  0247   4502  		subwf	TempReg,W
+09F9  1603   4503  		btfss	Carry
+09FA  39E7   4504  		goto	GetNextByte
+09FB  0040   4505  		ret
+09FC  1940   4508  		movlw	ReadBuffer
+09FD  0084   4509       		movwf	Fsr
+09FE  0847   4510       		movfw	TempReg
+09FF  0784   4511       		addwf	Fsr,F
+0A00  083C   4512       		movfw	WorkReg
+0A01  1343   4513       		bsf	RamBank
+0A02  0080   4514       		movwf	Indf
+0A03  1143   4515       		bcf	RamBank
+0A04  08F3   4517  		testz	EncryptionValue
+0A05  1483   4518  		btfsc	Zero
+0A06  0040   4519  		ret
+0A07  0AF4   4521  		incf	PitchXor,1
+0A08  08BC   4522       	testz   WorkReg
+0A09  1483   4523       	btfsc	Zero
+0A0A  0040   4524  		ret
+0A0B  1901   4525  		movlw	01h
+0A0C  0673   4526       	xorwf	EncryptionValue,W
+0A0D  1683   4527  		btfss	Zero
+0A0E  3A14   4528       	goto    EncryptionCode2
+0A0F  1901   4530  		movlw	01h
+0A10  0574   4531  		andwf	PitchXor,W
+0A11  1683   4532  		btfss   Zero
+0A12  3A18   4533          goto    XorEncryption
+0A13  0040   4534          ret
+0A14  1901   4536  		movlw	01h
+0A15  0574   4537  		andwf	PitchXor,W
+0A16  1683   4538  		btfss   Zero		
+0A17  0040   4539       	ret
+0A18  0847   4541          movfw	TempReg
+0A19  1D01   4542  		xorlw	01h
+0A1A  1483   4543  		btfsc	Zero
+0A1B  0000   4544  		nop
+0A1C  1343   4546       	bsf	RamBank
+0A1D  1980   4547       	movlw	80h
+0A1E  0680   4548  		xorwf	Indf,F
+0A1F  1143   4549       	bcf	RamBank 
+0A20  0040   4551  		ret	
+0A21  146F      4  		btfsc	AndroidURLDoneFlag
+0A22  3A36      5  		goto	ThirdSendKey
+0A23  16AB      7  		btfss	DataInFlag1
+0A24  0040      8  		ret
+0A25  14AA      9  		btfsc	OneFlag
+0A26  0040     10  		ret
+0A27  12EA     11  		bsf	TransFlag
+0A28  12AA     12  		bsf	OneFlag
+0A29  152A     13  		btfsc	PlugFlag
+0A2A  0040     14  		ret
+0A2B  0850     16  		movfw	ScanNumber
+0A2C  2B00     17  		call	GetKeyValuePro_Android
+0A2D  00D5     18  		movwf	UsbKeyBuffer2
+0A2E  19E1     19  		movlw	E1h
+0A2F  0655     20  		xorwf	UsbKeyBuffer2,W
+0A30  1683     21  		btfss	Zero
+0A31  3A55     22  		goto	NormalKeyValue0_android
+0A32  1902     24  		movlw	02h					;AC Home
+0A33  00D5     25  		movwf	UsbKeyBuffer2
+0A34  0AD0     26  		incf	ScanNumber,F
+0A35  0040     27  		ret
+0A36  0850     30  		movfw	ScanNumber
+0A37  0635     31  		xorwf	table0x51addr_add5,W
+0A38  1683     32  		btfss	Zero
+0A39  3A40     33  		goto	No0x51LOOP
+0A3A  1909     35  		movlw 09h
+0A3B  0230     36  		subwf gTempVar0,W
+0A3C  1403     37  		btfsc Carry
+0A3D  3A40     40  		goto No0x51LOOP
+0A3E  0832     43  		movfw table0x51addr
+0A3F  00D0     44  		movwf 	ScanNumber
+0A40  0850     46  		movfw	ScanNumber
+0A41  2B3C     47  		call	GetThirdKeyValue_Android
+0A42  00D5     48  		movwf	UsbKeyBuffer2
+0A43  19EB     49  		movlw	EBh
+0A44  0655     50  		xorwf	UsbKeyBuffer2,W
+0A45  1683     51  		btfss	Zero
+0A46  3A55     52  		goto	NormalKeyValue0_android
+0A47  14AF     54  		btfsc setting0x51addrFlag
+0A48  3A4F     55  		goto $+7
+0A49  0850     56  		movfw 	ScanNumber
+0A4A  00B2     57  		movwf	table0x51addr
+0A4B  00B5     58  		movwf	table0x51addr_add5
+0A4C  1906     59  		movlw	06h
+0A4D  07B5     60  		addwf	table0x51addr_add5,F
+0A4E  12AF     61  		bsf setting0x51addrFlag
+0A4F  0AB0     63  		incf gTempVar0,F
+0A50  01D5     64  		clrf	UsbKeyBuffer2
+0A51  1951     65  		movlw	51h					;0x51 'down arrow key'
+0A52  00D6     66  		movwf	UsbKeyBuffer3		
+0A53  0AD0     67  		incf	ScanNumber,F
+0A54  0040     68  		ret	
+0A55  19E2     71  		movlw	E2h
+0A56  0655     72  		xorwf	UsbKeyBuffer2,W
+0A57  1683     73  		btfss	Zero
+0A58  3A60     74  		goto	NormalKeyValue01_android
+0A59  13AE     77  		bsf	ReportIDFlag
+0A5A  1908     79  		movlw	08h    				;gui	
+0A5B  00D5     80  		movwf	UsbKeyBuffer2
+0A5C  1905     81  		movlw	05h    				;B	
+0A5D  00D6     82  		movwf	UsbKeyBuffer3	
+0A5E  0AD0     83  		incf	ScanNumber,F 
+0A5F  0040     84  		ret		
+0A60  19E3     86  		movlw	E3h
+0A61  0655     87  		xorwf	UsbKeyBuffer2,W
+0A62  1683     88  		btfss	Zero
+0A63  3A69     89  		goto	NormalKeyValue02_android
+0A64  13AE     90  		bsf		ReportIDFlag
+0A65  25A1     91  		call	WaitforLangSwitch
+0A66  01D5     92  		clrf	UsbKeyBuffer2			;remember clrf UsbKeyBuffer2
+0A67  01D6     93  		clrf	UsbKeyBuffer3	
+0A68  0040     94  		ret
+0A69  19E4     96  		movlw	E4h
+0A6A  0655     97  		xorwf	UsbKeyBuffer2,W
+0A6B  1683     98  		btfss	Zero
+0A6C  3A72     99  		goto	NormalKeyValue03_android
+0A6D  01D5    101  		clrf	UsbKeyBuffer2
+0A6E  1928    102  		movlw	28h					;enter
+0A6F  00D6    103  		movwf	UsbKeyBuffer3
+0A70  0AD0    104  		incf	ScanNumber,F
+0A71  0040    105  		ret		
+0A72  19E5    107  		movlw	E5h
+0A73  0655    108  		xorwf	UsbKeyBuffer2,W
+0A74  1683    109  		btfss	Zero
+0A75  3A7B    110  		goto	NormalKeyValue04_android
+0A76  11AE    111  		bcf	ReportIDFlag
+0A77  1901    112  		movlw	01h    				;AC Search	
+0A78  00D5    113  		movwf	UsbKeyBuffer2
+0A79  0AD0    115  		incf	ScanNumber,F		
+0A7A  0040    116  		ret
+0A7B  19E6    119  		movlw	E6h
+0A7C  0655    120  		xorwf	UsbKeyBuffer2,W
+0A7D  1683    121  		btfss	Zero
+0A7E  3A85    122  		goto	NormalKeyValue05_android
+0A7F  1904    124  		movlw	04h    				;alt	
+0A80  00D5    125  		movwf	UsbKeyBuffer2
+0A81  1907    126  		movlw	07h    				;D	
+0A82  00D6    127  		movwf	UsbKeyBuffer3	
+0A83  0AD0    128  		incf	ScanNumber,F	
+0A84  0040    129  		ret	
+0A85  19E7    131  		movlw	E7h
+0A86  0655    132  		xorwf	UsbKeyBuffer2,W
+0A87  1683    133  		btfss	Zero
+0A88  3A8D    134  		goto	NormalKeyValue06_android
+0A89  01D5    136  		clrf	UsbKeyBuffer2
+0A8A  26C3    139  		call	Set_LedState			;detect led status and let NumLock and CapsLock on		
+0A8B  0AD0    140  		incf	ScanNumber,F	
+0A8C  0040    141  		ret			
+0A8D  19E8    143  		movlw	E8h
+0A8E  0655    144  		xorwf	UsbKeyBuffer2,W
+0A8F  1683    145  		btfss	Zero
+0A90  3A97    146  		goto	NormalKeyValue07_android
+0A91  1901    149  		movlw	01h    				;ctrl	
+0A92  00D5    150  		movwf	UsbKeyBuffer2
+0A93  190F    151  		movlw	0fh    				;L	
+0A94  00D6    152  		movwf	UsbKeyBuffer3	
+0A95  0AD0    153  		incf	ScanNumber,F	
+0A96  0040    154  		ret			
+0A97  19E9    158  		movlw	E9h
+0A98  0655    159  		xorwf	UsbKeyBuffer2,W
+0A99  1683    160  		btfss	Zero
+0A9A  3AA0    161  		goto	NormalKeyValue08_android
+0A9B  01D5    162  		clrf	UsbKeyBuffer2
+0A9C  1965    163  		movlw	65h					;0x65
+0A9D  00D6    164  		movwf	UsbKeyBuffer3	
+0A9E  0AD0    165  		incf	ScanNumber,F	
+0A9F  0040    166  		ret
+0AA0  19EA    168  		movlw	EAh
+0AA1  0655    169  		xorwf	UsbKeyBuffer2,W
+0AA2  1683    170  		btfss	Zero
+0AA3  3AA9    171  		goto	NormalKeyValue09_android
+0AA4  01D5    172  		clrf	UsbKeyBuffer2
+0AA5  192B    173  		movlw	2bh					;tab
+0AA6  00D6    174  		movwf	UsbKeyBuffer3
+0AA7  0AD0    175  		incf	ScanNumber,F	
+0AA8  0040    176  		ret
+0AA9  19EC    178  		movlw	ECh
+0AAA  0655    179  		xorwf	UsbKeyBuffer2,W
+0AAB  1683    180  		btfss	Zero
+0AAC  3AB2    181  		goto	NormalKeyValue10_android
+0AAD  01D5    182  		clrf	UsbKeyBuffer2
+0AAE  194F    183  		movlw	4fh					;0x4f 'right arrow key'
+0AAF  00D6    184  		movwf	UsbKeyBuffer3
+0AB0  0AD0    185  		incf	ScanNumber,F	
+0AB1  0040    186  		ret			
+0AB2  01D4    191  		clrf	UsbKeyBuffer0
+0AB3  0AD0    192  		incf	ScanNumber,F
+0AB4  193B    193  		movlw	AndroidWebLength
+0AB5  146F    194  		btfsc AndroidURLDoneFlag
+0AB6  192F    195  		movlw AndroidThirdLength
+0AB7  0250    196  		subwf	ScanNumber,W
+0AB8  1603    197  		btfss	Carry
+0AB9  0040    198  		ret
+0ABA  01D0    199  		clrf	ScanNumber
+0ABB  106A    200  		bcf	EndTransFlag
+0ABC  10AB    201  		bcf	DataInFlag1
+0ABD  1025    202  		bcf	GUIFlag
+0ABE  10AA    203  		bcf	OneFlag
+0ABF  0040    204  		ret
+0AC0  146F    208  		btfsc AndroidURLDoneFlag
+0AC1  3AC5    209  		goto SendDataReport_android
+0AC2  14EA    211  		btfsc	TransFlag
+0AC3  3AC5    212  		goto	SendDataReport_android
+0AC4  0040    213  		ret
+0AC5  15D5    215    		btfsc	Tx1Rdy
+0AC6  0040    216    		ret
+0AC7  1902    218  		movlw	02h				;report id = 2
+0AC8  15AE    219  		btfsc	ReportIDFlag
+0AC9  1901    220  		movlw	01h
+0ACA  1E58    221  		movwr	Tx1FifoReg0
+0ACB  0855    223    		movfw	UsbKeyBuffer2
+0ACC  1E59    224    		movwr	Tx1FifoReg1
+0ACD  0856    225    		movfw	UsbKeyBuffer3
+0ACE  1E5B    226    		movwr	Tx1FifoReg3
+0ACF  0857    227    		movfw	UsbKeyBuffer4
+0AD0  1E5C    228    		movwr	Tx1FifoReg4;
+0AD1  0869    229    		movfw	UsbKeyBuffer5
+0AD2  1E5E    230    		movwr	Tx1FifoReg6;
+0AD3  1900    231    		movlw	00h
+0AD4  1E5A    234  		movwr	Tx1FifoReg2
+0AD5  1E5E    238    		movwr	Tx1FifoReg6
+0AD6  1E5F    239    		movwr	Tx1FifoReg7
+0AD7  00D6    240    		movwf	UsbKeyBuffer3
+0AD8  19F0    244   		movlw	f0h
+0AD9  0595    245   		andwf	Tx1Reg,F
+0ADA  1902    247  		movlw	02h
+0ADB  15AE    248  		btfsc	ReportIDFlag
+0ADC  1908    249   		movlw	08h
+0ADD  0495    250  		iorwf	Tx1Reg,F
+0ADE  1940    251  		movlw	40h
+0ADF  0695    252  		xorwf	Tx1Reg,F
+0AE0  13D5    253  		bsf	Tx1Rdy
+0AE1  10AA    255  		bcf	OneFlag
+0AE2  10EA    256    		bcf	TransFlag
+0AE3  01D4    258  		clrf	UsbKeyBuffer0
+0AE4  01D5    259  		clrf	UsbKeyBuffer2
+0AE5  01D6    260    		clrf	UsbKeyBuffer3
+0AE6  166F    263  		btfss AndroidURLDoneFlag
+0AE7  0040    264  		ret
+0AE8  2AF0    265  		call DelaySendKeyRoutine
+0AE9  08D0    266  		testz ScanNumber
+0AEA  1683    267  		btfss	Zero
+0AEB  0040    268  		ret
+0AEC  10D3    269  		bcf	DeviceR
+0AED  1E03    270  		sleep
+0AEE  3AED    271  		goto $-1
+0AEF  0040    273  		ret	
+0AF0  1940    276  		movlw	40h
+0AF1  156E    277  		btfsc	AndroidOSFlag
+0AF2  1980    278  		movlw	80h;c0h
+0AF3  146F    279  		btfsc AndroidURLDoneFlag
+0AF4  1930    280  		movlw	30h
+0AF5  00B3    281  		movwf	gTempVar3
+0AF6  00B4    282  		movwf	gTempVar4
+0AF7  03B4    284  		decf 	gTempVar4,F
+0AF8  1683    285  		btfss	Zero
+0AF9  3AF7    286  		goto	$-2
+0AFA  03B3    287  		decf 	gTempVar3,F
+0AFB  1683    288  		btfss	Zero
+0AFC  3AF7    289  		goto	DelaySendKey_sub
+0AFD  01B3    290  		clrf	gTempVar3
+0AFE  01B4    291  		clrf	gTempVar4
+0AFF  0040    292  		ret
+0B00  0782    299  		addwf	Pcl,F
+0B01  1800    301  		retlw	00h
+0B02  1800    302  		retlw	00h
+0B03  18E1    303  		retlw	E1h			;	AC Home
+0B04  1800    304  		retlw	00h
+0B05  1800    305  		retlw	00h
+0B06  18E3    306  		retlw	E3h
+0B07  1800    307  		retlw	00h 
+0B08  1800    308  		retlw	00h			
+0B09  1800    309  		retlw	00h
+0B0A  18E7    310  		retlw	E7h			;	detect SetLed
+0B0B  1800    311  		retlw	00h
+0B0C  1800    312  		retlw	00h			
+0B0D  1800    313  		retlw	00h
+0B0E  18E3    314  		retlw	E3h
+0B0F  1800    315  		retlw	00h
+0B10  1800    316  		retlw	00h	
+0B11  18E2    317  		retlw	E2h			;	win+b
+0B12  1800    318  		retlw	00h
+0B13  1800    319  		retlw	00h			
+0B14  1800    320  		retlw	00h
+0B15  18E3    321  		retlw	E3h
+0B16  1800    322  		retlw	00h
+0B17  1800    323  		retlw	00h
+0B18  18E4    325  		retlw	E4h			;	enter
+0B19  1800    326  		retlw	00h
+0B1A  1800    327  		retlw	00h	
+0B1B  18E3    328  		retlw	E3h
+0B1C  1800    329  		retlw	00h
+0B1D  1800    330  		retlw	00h
+0B1E  18E4    332  		retlw	E4h			;	enter
+0B1F  1800    333  		retlw	00h
+0B20  1800    334  		retlw	00h	
+0B21  18E3    335  		retlw	E3h
+0B22  1800    336  		retlw	00h
+0B23  1800    337  		retlw	00h		
+0B24  18E4    339  		retlw	E4h			;	enter
+0B25  1800    340  		retlw	00h
+0B26  1800    341  		retlw	00h	
+0B27  18E3    342  		retlw	E3h
+0B28  1800    343  		retlw	00h
+0B29  1800    344  		retlw	00h
+0B2A  18E5    346  		retlw	E5h			;	AC search
+0B2B  1800    347  		retlw	00h
+0B2C  1800    348  		retlw	00h
+0B2D  18E3    349  		retlw	E3h
+0B2E  1800    350  		retlw	00h
+0B2F  1800    351  		retlw	00h	
+0B30  18E8    353  		retlw	E8h			;	ctrl+L
+0B31  1800    354  		retlw	00h
+0B32  1800    355  		retlw	00h
+0B33  18E3    356  		retlw	E3h
+0B34  1800    357  		retlw	00h
+0B35  1800    358  		retlw	00h	
+0B36  18E6    360  		retlw	E6h			;	alt+D
+0B37  1800    361  		retlw	00h
+0B38  1800    362  		retlw	00h
+0B39  18E3    363  		retlw	E3h
+0B3A  1800    364  		retlw	00h
+0B3B  1800    365  		retlw	00h			
+0B3C  0782    371  		addwf	Pcl,F
+0B3D  1800    373  		retlw	00h
+0B3E  1800    374  		retlw	00h
+0B3F  18E9    375  		retlw	E9h			;	0x65
+0B40  1800    376  		retlw	00h
+0B41  1800    377  		retlw	00h
+0B42  18E3    378  		retlw	E3h
+0B43  1800    379  		retlw	00h 
+0B44  1800    380  		retlw	00h			
+0B45  1800    381  		retlw	00h
+0B46  18EC    382  		retlw	ECh			;	tab
+0B47  1800    383  		retlw	00h
+0B48  1800    384  		retlw	00h			
+0B49  1800    385  		retlw	00h
+0B4A  18E3    386  		retlw	E3h
+0B4B  1800    387  		retlw	00h
+0B4C  1800    388  		retlw	00h	
+0B4D  18EB    389  		retlw	EBh			;	0x51 ;table0x51addr
+0B4E  1800    390  		retlw	00h
+0B4F  1800    391  		retlw	00h			
+0B50  1800    392  		retlw	00h
+0B51  18E3    393  		retlw	E3h
+0B52  1800    394  		retlw	00h
+0B53  1800    395  		retlw	00h
+0B54  18E4    397  		retlw	E4h			;	enter
+0B55  1800    398  		retlw	00h
+0B56  1800    399  		retlw	00h	
+0B57  18E3    400  		retlw	E3h
+0B58  1800    401  		retlw	00h
+0B59  1800    402  		retlw	00h
+0B5A  18EA    404  		retlw	EAh			;	tab
+0B5B  1800    405  		retlw	00h
+0B5C  1800    406  		retlw	00h	
+0B5D  18E3    407  		retlw	E3h
+0B5E  1800    408  		retlw	00h
+0B5F  1800    409  		retlw	00h		
+0B60  18EA    411  		retlw	EAh			;	tab
+0B61  1800    412  		retlw	00h
+0B62  1800    413  		retlw	00h	
+0B63  18E3    414  		retlw	E3h
+0B64  1800    415  		retlw	00h
+0B65  1800    416  		retlw	00h
+0B66  18E4    418  		retlw	E4h			;	enter
+0B67  1800    419  		retlw	00h
+0B68  1800    420  		retlw	00h
+0B69  18E3    421  		retlw	E3h
+0B6A  1800    422  		retlw	00h
+0B6B  1800    423  		retlw	00h	
+0C00  0782      9  		addwf	Pcl,F
+0C01  1812     11  		retlw   12h				;bLength			=>12h byte
+0C02  1801     12  		retlw   01h				;bdescriptorType		=>Device
+0C03  1810     13  		retlw   10h				;bcdUSB low Byte		=>USB is VER:1.1
+0C04  1801     14  		retlw   01h				;bcdUSB hi  Byte
+0C05  1800     15  		retlw   00h				;bDeviceClass
+0C06  1800     16  		retlw   00h				;bDeviceSubClass
+0C07  1800     17  		retlw   00h				;bDeviceProtocol
+0C08  1808     18  		retlw   08h				;bMaxPacketSize0		=>8 byte
+0C09  18AC     19  		retlw   VID_LO				;idVendor low byte		=>Tenx Vendor ID is 1130
+0C0A  1805     20  		retlw   VID_HI				;idVendor hi  byte
+0C0B  180B     21  		retlw   PID_LO				;idProduct low byte		=>Product ID for MASK type.
+0C0C  1802     22  		retlw   PID_HI				;idProduct hi byte
+0C0D  1800     23  		retlw   00h				;bcdDevice low byte
+0C0E  1805     24  		retlw   05h				;bcdDevice hi byte
+0C0F  1801     25  		retlw   01h				;iManufacturer
+0C10  1802     26  		retlw   02h				;iProduct
+0C11  1800     27  		retlw   00h				;iSeriaNumber
+0C12  1801     28  		retlw   01h				;bNumConfigurations		=>One configuration
+0C13  1809     33  		retlw   09h				;bLength			=>9 byte
+0C14  1802     34  		retlw   02h				;bDescriptorType		=>Configuration
+0C15  1822     35  		retlw   ConfigLen		  	;wTotalLength low Byte	  	=>Transfer all byte number
+0C16  1800     36  		retlw   00h				;wTotalLength  hi  Byte
+0C17  1801     37  		retlw   01h;02h				;bNumInterfaces			=>Two Interface
+0C18  1801     38  		retlw   01h				;bConfigurationValue		=>Configruation Valume
+0C19  1800     39  		retlw   00h				;iConfiguration			=>Unused
+0C1A  1880     40  		retlw   80h				;bmAttribute			=>(Bit7:Bus supply Power/Bit5:RemoteWakeUp)
+0C1B  1832     41  		retlw   32h				;MaxPower   			=>Max Current 500mA
+0C1C  1809     46  		retlw   09h				;bLength			=>9 byte
+0C1D  1804     47  		retlw   04h				;bDescriptorType		=>Interface
+0C1E  1800     48  		retlw   00h				;bInterfaceNumber		=>set0
+0C1F  1800     49  		retlw   00h				;bAlternateSetting		=>0
+0C20  1801     50  		retlw   01h				;bNumEndPoint			=>EndPoint 1
+0C21  1803     51  		retlw   03h				;bInterfaceClass
+0C22  1801     52  		retlw   01h				;bInterfaceSubclass
+0C23  1801     53  		retlw   01h				;bIinterfaceProtocal
+0C24  1800     54  		retlw   00h				;iInterface
+0C25  1809     59  		retlw	09h
+0C26  1821     60  		retlw	21h
+0C27  1810     61  		retlw	10h
+0C28  1801     62  		retlw	01h
+0C29  1800     63  		retlw	00h;21h				;bCountryCode
+0C2A  1801     64  		retlw	01h
+0C2B  1822     65  		retlw	22h
+0C2C  1862     66  		retlw	HidReport1Len
+0C2D  1800     67  		retlw	00h
+0C2E  1807     71  		retlw   07h				;bLength			=>7 byte
+0C2F  1805     72  		retlw   05h				;bDescriptorType		=>endpoint
+0C30  1881     73  		retlw   81h				;enpoint address	 	=>in endpoint, endpoint 1
+0C31  1803     74  		retlw   03h				;endpoint attribute		=>interrupt
+0C32  1808     75  		retlw   08h				;max packet size		=>8 bytes
+0C33  1800     76  		retlw   00h				;max packet size
+0C34  180A     77  		retlw   0ah				;polling interval		=>1 ms
+0C35  1804    122  		retlw   04h				;length
+0C36  1803    123  		retlw   03h				;type (3 = string)Language English
+0C37  1809    124  		retlw   09h				;Language:English
+0C38  1804    125  		retlw   04h  			   	;Sub-Language:default
+0C39  180A    130  		retlw   0ah				;length
+0C3A  1803    131  		retlw   03h				;type (3 = string)Language English
+0C3B  1854    133  		retlw	'T'
+0C3C  1800    134  		retlw   00h
+0C3D  1845    135  		retlw	'E'
+0C3E  1800    136  		retlw	00h
+0C3F  184E    137  		retlw	'N'
+0C40  1800    138  		retlw	00h
+0C41  1858    139  		retlw	'X'
+0C42  1800    140  		retlw	00h
+0C43  181C    148  		retlw	28		;34 bytes
+0C44  1803    149  		retlw	03h
+0C45  1854    151  		retlw	'T'
+0C46  1800    152  		retlw	00h
+0C47  1850    153  		retlw	'P'
+0C48  1800    154  		retlw	00h
+0C49  1839    155  		retlw	'9'
+0C4A  1800    156  		retlw	00h
+0C4B  1838    157  		retlw	'8'
+0C4C  1800    158  		retlw	00h
+0C4D  1830    159  		retlw	'0'
+0C4E  1800    160  		retlw	00h
+0C4F  1838    161  		retlw	'8'
+0C50  1800    162  		retlw	00h
+0C51  1820    163  		retlw	' '
+0C52  1800    164  		retlw	00h
+0C53  1857    165  		retlw	'W'
+0C54  1800    166  		retlw	00h
+0C55  1845    167  		retlw	'E'
+0C56  1800    168  		retlw	00h
+0C57  1842    169  		retlw	'B'
+0C58  1800    170  		retlw	00h
+0C59  184B    171  		retlw	'K'
+0C5A  1800    172  		retlw	00h
+0C5B  1845    173  		retlw	'E'
+0C5C  1800    174  		retlw	00h
+0C5D  1859    175  		retlw	'Y'
+0C5E  1800    176  		retlw	00h
+0C5F  1805    187  		retlw   05h	; usage page (generic desktop)		;65 bytes----------00h
+0C60  1801    188  		retlw	01h
+0C61  1809    189  		retlw   09h	; usage (keyboard)
+0C62  1806    190  		retlw	06h
+0C63  18A1    191  		retlw   a1h	; collection (application)
+0C64  1801    192  		retlw	01h
+0C65  1885    194  		retlw	85h	; report id(1)
+0C66  1801    195  		retlw	01h
+0C67  1805    197  		retlw   05h	; USAGE_PAGE (Keyboard)
+0C68  1807    198  		retlw	07h
+0C69  1819    200  		retlw   19h	; USAGE_MINIMUM (Keyboard LeftControl)
+0C6A  18E0    201  		retlw	e0h
+0C6B  1829    202  		retlw   29h	; USAGE_MAXIMUM (Keyboard Right GUI)
+0C6C  18E7    203  		retlw	e7h
+0C6D  1815    204  		retlw   15h	; logical minimum (0)
+0C6E  1800    205  		retlw	00h
+0C6F  1825    206  		retlw   25h	; logical maximum (1)
+0C70  1801    207  		retlw	01h
+0C71  1875    209  		retlw   75h	; report size (1 bit)
+0C72  1801    210  		retlw	01h
+0C73  1895    211  		retlw   95h	; report count (8 bits)
+0C74  1808    212  		retlw	08h
+0C75  1881    213  		retlw   81h	; input (data, variable, absolute)
+0C76  1802    214  		retlw	02h
+0C77  1895    215  		retlw   95h	; report count (1 byte)
+0C78  1801    216  		retlw	01h
+0C79  1875    218  		retlw   75h	; report size (8 bits)
+0C7A  1808    219  		retlw	08h
+0C7B  1881    220  		retlw   81h	; input (constant)
+0C7C  1801    221  		retlw	01h
+0C7D  1895    222  		retlw   95h	; report count (3)
+0C7E  1803    223  		retlw	03h
+0C7F  1875    224  		retlw   75h	; report size (1)
+0C80  1801    225  		retlw	01h
+0C81  1805    227  		retlw   05h	; usage page (LEDs)
+0C82  1808    228  		retlw	08h
+0C83  1819    229  		retlw   19h	; usage minimum (1)
+0C84  1801    230  		retlw	01h
+0C85  1829    231  		retlw   29h	; usage maximum (3)
+0C86  1803    232  		retlw	03h
+0C87  1891    233  		retlw   91h	; output (data, variable, absolute)
+0C88  1802    234  		retlw	02h
+0C89  1895    236  		retlw   95h	; report count (5)
+0C8A  1805    237  		retlw	05h
+0C8B  1875    238  		retlw   75h	; report size (1)
+0C8C  1801    239  		retlw	01h
+0C8D  1891    240  		retlw   91h	; output (constant)
+0C8E  1801    241  		retlw	01h
+0C8F  1895    242  		retlw   95h	; report count (6)
+0C90  1805    243  		retlw	05h	;06h
+0C91  1875    245  		retlw   75h	; report size (8)
+0C92  1808    246  		retlw	08h
+0C93  1815    247  		retlw   15h	; logical minimum (0)
+0C94  1800    248  		retlw	00h
+0C95  1826    249  		retlw   26h	; logical maximum (255)
+0C96  18FF    250  		retlw	ffh
+0C97  1800    251  		retlw	00h
+0C98  1805    252  		retlw   05h	; usage page (key codes)
+0C99  1807    254  		retlw	07h
+0C9A  1819    255  		retlw   19h	; usage minimum (0)
+0C9B  1800    256  		retlw	00h
+0C9C  182A    257  		retlw   2ah	; usage maximum (255)
+0C9D  18FF    258  		retlw	ffh
+0C9E  1800    259  		retlw	00h
+0C9F  1881    260  		retlw   81h	; input (data, array)
+0CA0  1800    261  		retlw	00h
+0CA1  18C0    263  		retlw   c0h	; end collection
+0CA2  1805    265  		retlw	05h	; usage page(consumer)
+0CA3  180C    266  		retlw	0ch
+0CA4  1809    267  		retlw	09h	; usage(remote control)
+0CA5  1801    268  		retlw	01h		
+0CA6  18A1    269  		retlw	a1h	; collection(application)
+0CA7  1801    270  		retlw	01h
+0CA8  1885    271  		retlw	85h	; report ID
+0CA9  1802    272  		retlw	02h
+0CAA  1815    273  		retlw	15h	; logical minimal
+0CAB  1800    274  		retlw	00h
+0CAC  1825    275  		retlw	25h	; logical maximal
+0CAD  1801    276  		retlw	01h
+0CAE  1875    277  		retlw	75h	; report size(1)
+0CAF  1801    278  		retlw	01h
+0CB0  180A    279  		retlw	0ah	; usage(AC search)
+0CB1  1821    280  		retlw	21h
+0CB2  1802    281  		retlw	02h
+0CB3  180A    282  		retlw	0ah	; usage(AC Home)
+0CB4  1823    283  		retlw	23h
+0CB5  1802    284  		retlw	02h
+0CB6  1895    296  		retlw	95h	; report count(2)
+0CB7  1802    297  		retlw	02h
+0CB8  1881    298  		retlw	81h	; input(data, variable, absolute)
+0CB9  1806    299  		retlw	06h
+0CBA  1875    300  		retlw	75h	; report size(1)
+0CBB  1801    301  		retlw	01h
+0CBC  1895    302  		retlw	95h	; report count(6)
+0CBD  1806    303  		retlw	06h
+0CBE  1881    304  		retlw	81h	; input(constant)
+0CBF  1801    305  		retlw	01h
+0CC0  18C0    306  		retlw	c0h			
+0D78  0782    367  		addwf	Pcl,F
+0D79  1812    369  		retlw	12h						;verify tag v3
+0D7A  1801    370  		retlw	01h						;language type(use 0f00) 
+0D7B  1802    371  		retlw	02h						;encryption type(use 0f00)
+0D7C  1800    372  		retlw	00h						;Windows URL started address high byte
+0D7D  1810    373  		retlw	10h						;Windows URL started address low byte
+0D7E  1813    374  		retlw	13h						;Windows URL length(1 Bytes 1 char)
+0D7F  1800    375  		retlw	00h						;next OS URL started address high byte
+0D80  1823    376  		retlw	23h						;next OS URL started address low byte
+0D81  1813    377  		retlw	13h						;next OS URL length
+0D82  1800    378  		retlw	00h						;security key started address high byte
+0D83  1849    379  		retlw	49h						;security key started address low byte
+0D84  1800    380  		retlw	00h						;reserved
+0D85  1800    381  		retlw	00h						;reserved
+0D86  1802    382  		retlw	02h						;reserved
+0D87  1800    383  		retlw	00h						;reserved
+0D88  1800    384  		retlw	00h						;reserved
+0D89  1868    387  		retlw	68h			;68h
+0D8A  18F4    388  		retlw	f4h			;'T'
+0D8B  1874    389  		retlw	74h			;'t'
+0D8C  18F0    390  		retlw	f0h			;'p'
+0D8D  183A    391  		retlw	3ah			;':'
+0D8E  18AF    392  		retlw	afh			;'/'
+0D8F  182F    393  		retlw	2fh			;'/'
+0D90  18F7    394  		retlw	f7h			;'w'
+0D91  1877    395  		retlw	77h			;'w'
+0D92  18F7    396  		retlw	f7h			;'w'
+0D93  182E    397  		retlw	2eh			;'.'
+0D94  18E1    398  		retlw	e1h			;'a'
+0D95  1873    399  		retlw	73h			;'s'
+0D96  18EF    400  		retlw	efh			;'o'
+0D97  1873    401  		retlw	73h			;'s'
+0D98  18AE    402  		retlw	aeh			;'.'
+0D99  1863    403  		retlw	63h			;'c'
+0D9A  18EF    404  		retlw	efh			;'o'
+0D9B  186D    405  		retlw	6dh			;'m'
+0E00  0782    418  		addwf	Pcl,F
+0E01  1812    421  		retlw	12h						;verify tag v3
+0E02  1801    422  		retlw	01h						;language type(use 0f00) 
+0E03  1802    423  		retlw	02h						;encryption type(use 0f00)
+0E04  1800    424  		retlw	00h						;MAC URL started address high byte
+0E05  1810    425  		retlw	10h						;MAC URL started address low byte
+0E06  1813    426  		retlw	13h						;MAC URL length(2 Bytes 1 char,max 79 char)
+0E07  1800    427  		retlw	00h						;next OS URL started address high byte
+0E08  1836    428  		retlw	36h						;next OS URL started address low byte
+0E09  1813    429  		retlw	13h						;next OS URL length
+0E0A  1800    430  		retlw	00h						;security key started address high byte
+0E0B  184C    431  		retlw	4Ch						;security key started address low byte
+0E0C  1800    432  		retlw	00h						;reserved
+0E0D  1800    433  		retlw	00h						;reserved
+0E0E  1802    434  		retlw	02h						;reserved
+0E0F  1800    435  		retlw	00h						;reserved
+0E10  1800    436  		retlw	00h						;reserved
+0E11  1800    462  		retlw	00h
+0E12  188B    463  		retlw	8bh		;h
+0E13  1800    464  		retlw	00h
+0E14  1897    465  		retlw	97h		;t
+0E15  1800    466  		retlw	00h
+0E16  1897    467  		retlw	97h		;t
+0E17  1800    468  		retlw	00h
+0E18  1893    469  		retlw	93h		;p
+0E19  1802    470  		retlw	02h
+0E1A  18B3    471  		retlw	b3h		;:
+0E1B  1800    472  		retlw	00h
+0E1C  18B8    473  		retlw	b8h		;/		
+0E1D  1800    474  		retlw	00h				
+0E1E  18B8    475  		retlw	b8h		;/		
+0E1F  1800    476  		retlw	00h		
+0E20  189A    477  		retlw	9ah		;w
+0E21  1800    478  		retlw	00h
+0E22  189A    479  		retlw	9ah		;w
+0E23  1800    480  		retlw	00h
+0E24  189A    481  		retlw	9ah		;w
+0E25  1800    482  		retlw	00h		
+0E26  18B7    483  		retlw	b7h		;.
+0E27  1800    484  		retlw	00h
+0E28  188C    485  		retlw	8ch		;i
+0E29  1800    486  		retlw	00h
+0E2A  1893    487  		retlw	93h		;p
+0E2B  1800    488  		retlw	00h
+0E2C  1893    489  		retlw	93h		;p
+0E2D  1800    490  		retlw	00h
+0E2E  18A7    491  		retlw	a7h		;0
+0E2F  1800    492  		retlw	00h
+0E30  18B7    493  		retlw	b7h		;.
+0E31  1800    494  		retlw	00h		
+0E32  1891    495  		retlw	91h		;n
+0E33  1800    496  		retlw	00h		
+0E34  1888    497  		retlw	88h		;e		
+0E35  1800    498  		retlw	00h		
+0E36  1897    499  		retlw	97h		;t
+0F00  0782    527  		addwf	Pcl,F
+0F01  1812    529  		retlw	12h						;verify tag v3
+0F02  1801    530  		retlw	01h						;language type(use 0f00) 
+0F03  1802    531  		retlw	02h						;encryption type(use 0f00)
+0F04  1800    532  		retlw	00h						;Android URL started address high byte
+0F05  1810    533  		retlw	10h						;Android URL started address low byte
+0F06  1813    534  		retlw	13h						;Android URL length(2 Bytes 1 char,max 79 char)
+0F07  1800    535  		retlw	00h						;next OS URL started address high byte
+0F08  1836    536  		retlw	36h						;next OS URL started address low byte
+0F09  1813    537  		retlw	13h						;next OS URL length
+0F0A  1800    538  		retlw	00h						;security key started address high byte
+0F0B  184C    539  		retlw	4Ch						;security key started address low byte
+0F0C  1800    540  		retlw	00h						;reserved
+0F0D  1800    541  		retlw	00h						;reserved
+0F0E  1802    542  		retlw	02h						;reserved
+0F0F  1800    543  		retlw	00h						;reserved
+0F10  1800    544  		retlw	00h						;reserved
+0F11  1800    546  		retlw	00h
+0F12  188B    547  		retlw	8bh		;h
+0F13  1800    548  		retlw	00h
+0F14  1897    549  		retlw	97h		;t
+0F15  1800    550  		retlw	00h
+0F16  1897    551  		retlw	97h		;t
+0F17  1800    552  		retlw	00h
+0F18  1893    553  		retlw	93h		;p
+0F19  1802    554  		retlw	02h
+0F1A  18B3    555  		retlw	b3h		;:
+0F1B  1800    556  		retlw	00h
+0F1C  18B8    557  		retlw	b8h		;/		
+0F1D  1800    558  		retlw	00h				
+0F1E  18B8    559  		retlw	b8h		;/		
+0F1F  1800    560  		retlw	00h		
+0F20  1897    561  		retlw	97h		;t
+0F21  1800    562  		retlw	00h
+0F22  189A    563  		retlw	9ah		;w
+0F23  1800    564  		retlw	00h		
+0F24  18B7    565  		retlw	b7h		;.
+0F25  1800    566  		retlw	00h
+0F26  189C    567  		retlw	9ch		;y
+0F27  1800    568  		retlw	00h
+0F28  1884    569  		retlw	84h		;a
+0F29  1800    570  		retlw	00h
+0F2A  188B    571  		retlw	8bh		;h
+0F2B  1800    572  		retlw	00h
+0F2C  1892    573  		retlw	92h		;o
+0F2D  1800    574  		retlw	00h
+0F2E  1892    575  		retlw	92h		;o		
+0F2F  1800    576  		retlw	00h
+0F30  18B7    577  		retlw	b7h		;.
+0F31  1800    578  		retlw	00h		
+0F32  1886    579  		retlw	86h		;c
+0F33  1800    580  		retlw	00h		
+0F34  1892    581  		retlw	92h		;o		
+0F35  1800    582  		retlw	00h		
+0F36  1890    583  		retlw	90h		;m

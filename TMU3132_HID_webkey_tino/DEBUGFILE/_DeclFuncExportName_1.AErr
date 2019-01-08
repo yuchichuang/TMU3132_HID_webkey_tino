@@ -1,0 +1,11 @@
+*** ca89 V1.8.9 *** - (C) Copyright 2006-2014 tenx technology inc.
+D:\Projects\TMU3132\TMU3132_HID_webkey_tino_getreport01h\TMU3132_HID_webkey_tino\DEBUGFILE\_DeclFuncExportName_1.s(16): Error #43: Symbol `stkptr' is already defined
+D:\Projects\TMU3132\TMU3132_HID_webkey_tino_getreport01h\TMU3132_HID_webkey_tino\DEBUGFILE\_DeclFuncExportName_1.s(18): Error #43: Symbol `__STKPTRSAVESIZE__' is already defined
+D:\Projects\TMU3132\TMU3132_HID_webkey_tino_getreport01h\TMU3132_HID_webkey_tino\DEBUGFILE\_DeclFuncExportName_1.s(20): Error #43: Symbol `_fpruntimestack' is already defined
+D:\Projects\TMU3132\TMU3132_HID_webkey_tino_getreport01h\TMU3132_HID_webkey_tino\DEBUGFILE\_DeclFuncExportName_1.s(22): Error #43: Symbol `RSR' is already defined
+D:\Projects\TMU3132\TMU3132_HID_webkey_tino_getreport01h\TMU3132_HID_webkey_tino\DEBUGFILE\_DeclFuncExportName_1.s(23): Error #43: Symbol `__OPXSTKPTRSIZE__' is already defined
+D:\Projects\TMU3132\TMU3132_HID_webkey_tino_getreport01h\TMU3132_HID_webkey_tino\DEBUGFILE\_DeclFuncExportName_1.s(24): Error #43: Symbol `__BANK1_OFFSET_VALUE__' is already defined
+D:\Projects\TMU3132\TMU3132_HID_webkey_tino_getreport01h\TMU3132_HID_webkey_tino\DEBUGFILE\_DeclFuncExportName_1.s(26): Error #43: Symbol `__FPLANE_ADDRESS_MAX__' is already defined
+D:\Projects\TMU3132\TMU3132_HID_webkey_tino_getreport01h\TMU3132_HID_webkey_tino\DEBUGFILE\_DeclFuncExportName_1.s(27): Error #43: Symbol `__RPLANE_ADDRESS_MAX__' is already defined
+
+8 Error(s), 0 Warning(s).

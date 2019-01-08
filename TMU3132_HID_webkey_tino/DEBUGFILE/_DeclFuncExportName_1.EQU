@@ -1,0 +1,18 @@
+Line   Constant Name                     Value  Dup  Deep  RAMTYPE
+=====  ================================  =====  ===  ====  =======
+    2                            stkptr  0020h  0    0        FP0
+    4                __STKPTRSAVESIZE__  0000h  0    0        FP0
+    6                   _fpruntimestack  0288h  0    0        FP0
+    8                               RSR  0005h  0    0        FP0
+    9                 __OPXSTKPTRSIZE__  0000h  0    0        FP0
+   10            __BANK1_OFFSET_VALUE__  00C0h  0    0        FP0
+   12            __FPLANE_ADDRESS_MAX__  00FFh  0    0        FP0
+   13            __RPLANE_ADDRESS_MAX__  00FFh  0    0        FP0
+   16                            stkptr  0020h  0    0        FP0
+   18                __STKPTRSAVESIZE__  0000h  0    0        FP0
+   20                   _fpruntimestack  0288h  0    0        FP0
+   22                               RSR  0005h  0    0        FP0
+   23                 __OPXSTKPTRSIZE__  0000h  0    0        FP0
+   24            __BANK1_OFFSET_VALUE__  00C0h  0    0        FP0
+   26            __FPLANE_ADDRESS_MAX__  00FFh  0    0        FP0
+   27            __RPLANE_ADDRESS_MAX__  00FFh  0    0        FP0
